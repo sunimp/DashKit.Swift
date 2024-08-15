@@ -1,6 +1,6 @@
 import BitcoinCore
 import Foundation
-import HsToolKit
+import WWToolKit
 
 class TransactionLockVoteHandler: ITransactionLockVoteHandler {
     private let requiredVoteCount: Int

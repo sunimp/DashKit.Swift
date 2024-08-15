@@ -1,6 +1,6 @@
 import BitcoinCore
 import Foundation
-import HsExtensions
+import WWExtensions
 
 struct TransactionLockVoteMessage: IMessage {
     //  TXID of the transaction to lock
@@ -19,7 +19,7 @@ struct TransactionLockVoteMessage: IMessage {
     let hash: Data
 
     var description: String {
-        "\(txHash.hs.reversedHex)"
+        "\(txHash.ww.reversedHex)"
     }
 }
 

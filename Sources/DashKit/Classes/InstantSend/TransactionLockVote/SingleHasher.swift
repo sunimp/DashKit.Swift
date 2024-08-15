@@ -1,6 +1,6 @@
 import BitcoinCore
 import Foundation
-import HsCryptoKit
+import WWCryptoKit
 
 class SingleHasher: IDashHasher {
     func hash(data: Data) -> Data {

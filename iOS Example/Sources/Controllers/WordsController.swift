@@ -1,4 +1,4 @@
-import HdWalletKit
+import HDWalletKit
 import UIKit
 
 class WordsController: UIViewController {
@@ -56,7 +56,7 @@ class WordsController: UIViewController {
 
             Manager.shared.login(words: words, syncModeIndex: syncModeListControl.selectedSegmentIndex)
 
-            if let window = UIApplication.shared.windows.filter(\.isKeyWindow).first {
+            if let window = UIApplication.shared.activeWindow {
                 UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
                     window.rootViewController = MainController()
                 })

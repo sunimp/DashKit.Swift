@@ -1,8 +1,8 @@
 import BigInt
 import BitcoinCore
 import Foundation
-import HdWalletKit
-import HsToolKit
+import HDWalletKit
+import WWToolKit
 
 public class Kit: AbstractKit {
     private static let name = "DashKit"
@@ -225,7 +225,7 @@ public class Kit: AbstractKit {
 extension Kit: BitcoinCoreDelegate {
     public func transactionsUpdated(inserted: [TransactionInfo], updated: [TransactionInfo]) {
         // check for all new transactions if it's has instant lock
-        inserted.compactMap(\.transactionHash.hs.hexData).forEach { instantSend?.handle(insertedTxHash: $0) }
+        inserted.compactMap(\.transactionHash.ww.hexData).forEach { instantSend?.handle(insertedTxHash: $0) }
 
         delegate?.transactionsUpdated(inserted: cast(transactionInfos: inserted), updated: cast(transactionInfos: updated))
     }

@@ -2,8 +2,8 @@ import BitcoinCore
 import Combine
 import DashKit
 import Foundation
-import HdWalletKit
-import HsToolKit
+import HDWalletKit
+import WWToolKit
 
 class DashAdapter: BaseAdapter {
     override var feeRate: Int { 1 }

@@ -1,7 +1,7 @@
 import BitcoinCore
 import Foundation
-import HsCryptoKit
-import HsExtensions
+import WWCryptoKit
+import WWExtensions
 
 class TransactionLockVoteMessageParser: IMessageParser {
     var id: String { "txlvote" }

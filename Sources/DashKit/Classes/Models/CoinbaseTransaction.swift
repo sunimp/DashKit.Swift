@@ -1,6 +1,6 @@
 import BitcoinCore
 import Foundation
-import HsExtensions
+import WWExtensions
 
 struct CoinbaseTransaction {
     private let coinbasePayloadSize = 70 // additional size of coinbase v2 parameters

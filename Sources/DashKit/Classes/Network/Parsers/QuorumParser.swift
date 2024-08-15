@@ -1,7 +1,7 @@
 import BitcoinCore
 import Foundation
-import HsCryptoKit
-import HsExtensions
+import WWCryptoKit
+import WWExtensions
 
 class QuorumParser: IQuorumParser {
     let hasher: IDashHasher
@@ -12,7 +12,7 @@ class QuorumParser: IQuorumParser {
 
     func parse(byteStream: ByteStream) -> Quorum {
         let versionData = byteStream.read(Data.self, count: 2)
-        let version = versionData.hs.to(type: UInt16.self).littleEndian
+        let version = versionData.ww.to(type: UInt16.self).littleEndian
 
         let typeWithQuorumHash = byteStream.read(Data.self, count: 33)
         let type = typeWithQuorumHash[0]
@@ -22,7 +22,7 @@ class QuorumParser: IQuorumParser {
         var quorumIndex: UInt16?
         if version == 2 || version == 4 { // read v2 quorumIndex
             let indexData = byteStream.read(Data.self, count: 2)
-            quorumIndex = indexData.hs.to(type: UInt16.self).littleEndian
+            quorumIndex = indexData.ww.to(type: UInt16.self).littleEndian
             quorumIndexData = indexData
         }
 

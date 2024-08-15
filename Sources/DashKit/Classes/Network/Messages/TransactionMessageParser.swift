@@ -1,7 +1,7 @@
 import BitcoinCore
 import Foundation
-import HsCryptoKit
-import HsExtensions
+import WWCryptoKit
+import WWExtensions
 
 class TransactionMessageParser: IMessageParser {
     let id: String = "tx"

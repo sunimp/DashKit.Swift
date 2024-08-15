@@ -1,6 +1,6 @@
 import BitcoinCore
 import Foundation
-import HsExtensions
+import WWExtensions
 
 class MasternodeListDiffMessageParser: IMessageParser {
     private let masternodeParser: IMasternodeParser
