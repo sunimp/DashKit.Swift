@@ -1,5 +1,13 @@
-import BitcoinCore
+//
+//  ISLockMessage.swift
+//  DashKit
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import Foundation
+
+import BitcoinCore
 
 struct ISLockMessage: IMessage {
     let command: String = "islock"

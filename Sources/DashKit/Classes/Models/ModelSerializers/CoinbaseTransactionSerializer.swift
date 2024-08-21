@@ -1,5 +1,13 @@
-import BitcoinCore
+//
+//  CoinbaseTransactionSerializer.swift
+//  DashKit
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import Foundation
+
+import BitcoinCore
 
 class CoinbaseTransactionSerializer: ICoinbaseTransactionSerializer {
     func serialize(coinbaseTransaction: CoinbaseTransaction) -> Data {

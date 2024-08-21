@@ -1,6 +1,14 @@
-import BitcoinCore
-import Combine
+//
+//  MasternodeListSyncer.swift
+//  DashKit
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import Foundation
+import Combine
+
+import BitcoinCore
 
 class MasternodeListSyncer: IMasternodeListSyncer {
     private var cancellables = Set<AnyCancellable>()
@@ -13,7 +21,7 @@ class MasternodeListSyncer: IMasternodeListSyncer {
     private let queue: DispatchQueue
 
     init(bitcoinCore: BitcoinCore, initialBlockDownload: IInitialDownload, peerTaskFactory: IPeerTaskFactory, masternodeListManager: IMasternodeListManager,
-         queue: DispatchQueue = DispatchQueue(label: "io.horizontalsystems.dash-kit.masternode-list-syncer", qos: .background))
+         queue: DispatchQueue = DispatchQueue(label: "com.sunimp.dash-kit.masternode-list-syncer", qos: .background))
     {
         self.bitcoinCore = bitcoinCore
         self.initialBlockDownload = initialBlockDownload

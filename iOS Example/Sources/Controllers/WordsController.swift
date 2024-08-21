@@ -1,5 +1,15 @@
-import HDWalletKit
+//
+//  WordsController.swift
+//  DashKit-Example
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import UIKit
+import Combine
+
+import HDWalletKit
+import UIExtensions
 
 class WordsController: UIViewController {
     @IBOutlet var textView: UITextView?

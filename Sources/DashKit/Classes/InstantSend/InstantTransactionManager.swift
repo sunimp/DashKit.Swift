@@ -1,5 +1,13 @@
-import BitcoinCore
+//
+//  InstantTransactionManager.swift
+//  DashKit
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import Foundation
+
+import BitcoinCore
 
 class InstantTransactionManager {
     private var state: IInstantTransactionState

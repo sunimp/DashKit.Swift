@@ -12,7 +12,7 @@
 		6B7C7E6428EC00770053F11A /* Cuckoo in Frameworks */ = {isa = PBXBuildFile; productRef = 6B7C7E6328EC00770053F11A /* Cuckoo */; };
 		6B7C7E6628EC02540053F11A /* DashKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B7C7E6528EC02540053F11A /* DashKit */; };
 		6BADE51A1F50100CE1EA2E77 /* libPods-DashKitTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68064D100A6B89360F422ACD /* libPods-DashKitTests.a */; };
-		A47FAFD72C6DC57100230DDD /* UIApplication+KeyWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47FAFD62C6DC57100230DDD /* UIApplication+KeyWindow.swift */; };
+		A40806002C75F354003947F1 /* UIExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = A40805FF2C75F354003947F1 /* UIExtensions */; };
 		D36AAA9623A2125D0065B32B /* DashAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36AAA7D23A2125D0065B32B /* DashAdapter.swift */; };
 		D36AAA9823A2125E0065B32B /* BaseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36AAA7F23A2125D0065B32B /* BaseAdapter.swift */; };
 		D36AAA9923A2125E0065B32B /* SendController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D36AAA8123A2125D0065B32B /* SendController.xib */; };
@@ -63,7 +63,6 @@
 		68064D100A6B89360F422ACD /* libPods-DashKitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DashKitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		752AEC72EEED42E4B36FB86A /* libPods-BitcoinCashKitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BitcoinCashKitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8533447FA6137FF0AD1A8653 /* libPods-BitcoinKitExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BitcoinKitExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A47FAFD62C6DC57100230DDD /* UIApplication+KeyWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+KeyWindow.swift"; sourceTree = "<group>"; };
 		AEBF785A9D87D74223787CA0 /* libPods-HodlerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HodlerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36AAA7D23A2125D0065B32B /* DashAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashAdapter.swift; sourceTree = "<group>"; };
 		D36AAA7F23A2125D0065B32B /* BaseAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseAdapter.swift; sourceTree = "<group>"; };
@@ -116,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A40806002C75F354003947F1 /* UIExtensions in Frameworks */,
 				6B7C7E6628EC02540053F11A /* DashKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,7 +173,6 @@
 				D36AAA8F23A2125D0065B32B /* Assets.xcassets */,
 				D36AAA9023A2125D0065B32B /* Configuration.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				A47FAFD62C6DC57100230DDD /* UIApplication+KeyWindow.swift */,
 				D36AAAAB23A212E30065B32B /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
@@ -347,6 +346,7 @@
 			name = "iOS Example";
 			packageProductDependencies = (
 				6B7C7E6528EC02540053F11A /* DashKit */,
+				A40805FF2C75F354003947F1 /* UIExtensions */,
 			);
 			productName = DashKit;
 			productReference = 607FACD01AFB9204008FA782 /* DashKit Demo.app */;
@@ -379,8 +379,9 @@
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 1120;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
@@ -405,6 +406,7 @@
 			mainGroup = 607FACC71AFB9204008FA782;
 			packageReferences = (
 				6B7C7E6228EC00770053F11A /* XCRemoteSwiftPackageReference "Cuckoo" */,
+				A40805FE2C75F354003947F1 /* XCRemoteSwiftPackageReference "UIExtensions.Swift" */,
 			);
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
@@ -472,7 +474,6 @@
 				D36AAAA723A2125E0065B32B /* Configuration.swift in Sources */,
 				D36AAAA023A2125E0065B32B /* WordsController.swift in Sources */,
 				D36AAAA823A2125E0065B32B /* Manager.swift in Sources */,
-				A47FAFD72C6DC57100230DDD /* UIApplication+KeyWindow.swift in Sources */,
 				D36AAA9C23A2125E0065B32B /* TransactionCell.swift in Sources */,
 				D36AAAA423A2125E0065B32B /* SendController.swift in Sources */,
 				D36AAA9D23A2125E0065B32B /* BalanceCell.swift in Sources */,
@@ -535,6 +536,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -545,6 +547,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -591,6 +594,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -601,6 +605,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -630,7 +635,7 @@
 					"@executable_path/Frameworks",
 				);
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.horizontalsystems.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sunimp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "DashKit Demo";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
@@ -648,7 +653,7 @@
 					"@executable_path/Frameworks",
 				);
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.horizontalsystems.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sunimp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "DashKit Demo";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
@@ -674,7 +679,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.horizontalsystems.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sunimp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -697,7 +702,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.horizontalsystems.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sunimp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
@@ -742,7 +747,15 @@
 			repositoryURL = "https://github.com/Brightify/Cuckoo";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 2.0.9;
+			};
+		};
+		A40805FE2C75F354003947F1 /* XCRemoteSwiftPackageReference "UIExtensions.Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sunimp/UIExtensions.Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -756,6 +769,11 @@
 		6B7C7E6528EC02540053F11A /* DashKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DashKit;
+		};
+		A40805FF2C75F354003947F1 /* UIExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A40805FE2C75F354003947F1 /* XCRemoteSwiftPackageReference "UIExtensions.Swift" */;
+			productName = UIExtensions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

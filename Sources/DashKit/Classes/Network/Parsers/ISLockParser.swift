@@ -1,5 +1,13 @@
-import BitcoinCore
+//
+//  ISLockParser.swift
+//  DashKit
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import Foundation
+
+import BitcoinCore
 import WWExtensions
 
 class ISLockParser: IMessageParser {

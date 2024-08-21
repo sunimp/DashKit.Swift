@@ -1,5 +1,13 @@
-import BitcoinCore
+//
+//  GetMasternodeListDiffMessageSerializer.swift
+//  DashKit
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import Foundation
+
+import BitcoinCore
 
 class GetMasternodeListDiffMessageSerializer: IMessageSerializer {
     var id: String { "getmnlistd" }

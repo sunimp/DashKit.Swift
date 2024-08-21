@@ -1,3 +1,10 @@
+//
+//  MainController.swift
+//  DashKit-Example
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import UIKit
 
 class MainController: UITabBarController {

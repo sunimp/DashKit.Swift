@@ -37,8 +37,8 @@ Dash has some transactions marked `instant`. So, instead of `TransactionInfo` ob
 
 ## Prerequisites
 
-* Xcode 10.0+
-* Swift 5+
+* Xcode 15.0+
+* Swift 5.5+
 * iOS 13+
 
 ## Installation
@@ -47,7 +47,7 @@ Dash has some transactions marked `instant`. So, instead of `TransactionInfo` ob
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sunimp/DashKit.Swift.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/sunimp/DashKit.Swift.git", .upToNextMajor(from: "3.0.3"))
 ]
 ```
 

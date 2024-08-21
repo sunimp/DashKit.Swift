@@ -1,5 +1,13 @@
-import BitcoinCore
+//
+//  InstantSend.swift
+//  DashKit
+//
+//  Created by Sun on 2024/8/21.
+//
+
 import Foundation
+
+import BitcoinCore
 import WWToolKit
 
 enum DashInventoryType: Int32 { case msgTxLockRequest = 4, msgTxLockVote = 5, msgIsLock = 30 }
@@ -13,7 +21,7 @@ class InstantSend {
     private let instantSendLockHandler: IInstantSendLockHandler
     private let logger: Logger?
 
-    init(transactionSyncer: IDashTransactionSyncer, transactionLockVoteHandler: ITransactionLockVoteHandler, instantSendLockHandler: IInstantSendLockHandler, dispatchQueue: DispatchQueue = DispatchQueue(label: "io.horizontalsystems.dash-kit.instant-send", qos: .userInitiated), logger: Logger? = nil) {
+    init(transactionSyncer: IDashTransactionSyncer, transactionLockVoteHandler: ITransactionLockVoteHandler, instantSendLockHandler: IInstantSendLockHandler, dispatchQueue: DispatchQueue = DispatchQueue(label: "com.sunimp.dash-kit.instant-send", qos: .userInitiated), logger: Logger? = nil) {
         self.transactionSyncer = transactionSyncer
         self.transactionLockVoteHandler = transactionLockVoteHandler
         self.instantSendLockHandler = instantSendLockHandler
