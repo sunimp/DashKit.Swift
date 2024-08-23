@@ -66,7 +66,7 @@ class WordsController: UIViewController {
 
             Manager.shared.login(words: words, syncModeIndex: syncModeListControl.selectedSegmentIndex)
 
-            if let window = UIApplication.shared.activeWindow {
+            if let window = UIWindow.keyWindow {
                 UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
                     window.rootViewController = MainController()
                 })
