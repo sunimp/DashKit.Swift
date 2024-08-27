@@ -30,7 +30,10 @@ class RequestMasternodeListDiffTask: PeerTask {
     }
 
     override func handle(message: IMessage) -> Bool {
-        if let message = message as? MasternodeListDiffMessage, message.baseBlockHash == baseBlockHash, message.blockHash == blockHash {
+        if
+            let message = message as? MasternodeListDiffMessage, message.baseBlockHash == baseBlockHash,
+            message.blockHash == blockHash
+        {
             masternodeListDiffMessage = message
 
             delegate?.handle(completedTask: self)

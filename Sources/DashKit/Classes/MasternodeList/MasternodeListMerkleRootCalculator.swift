@@ -17,7 +17,11 @@ class MasternodeListMerkleRootCalculator: IMasternodeListMerkleRootCalculator {
     private let masternodeMerkleRootCreator: IMerkleRootCreator
     private let masternodeHasher: IDashHasher
 
-    init(masternodeSerializer: IMasternodeSerializer, masternodeHasher: IDashHasher, masternodeMerkleRootCreator: IMerkleRootCreator) {
+    init(
+        masternodeSerializer: IMasternodeSerializer,
+        masternodeHasher: IDashHasher,
+        masternodeMerkleRootCreator: IMerkleRootCreator
+    ) {
         self.masternodeSerializer = masternodeSerializer
         self.masternodeHasher = masternodeHasher
         self.masternodeMerkleRootCreator = masternodeMerkleRootCreator
@@ -26,7 +30,7 @@ class MasternodeListMerkleRootCalculator: IMasternodeListMerkleRootCalculator {
     func calculateMerkleRoot(sortedMasternodes: [Masternode]) -> Data? {
         var hashList = [Data]()
 
-        sortedMasternodes.forEach { masternode in
+        for masternode in sortedMasternodes {
             let serialized = masternodeSerializer.serialize(masternode: masternode)
             hashList.append(masternodeHasher.hash(data: serialized))
         }

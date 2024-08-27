@@ -9,6 +9,8 @@ import Foundation
 
 import GRDB
 
+// MARK: - Quorum
+
 class Quorum: Record {
     let dataHash: Data
     let version: UInt16
@@ -74,7 +76,20 @@ class Quorum: Record {
         container[Columns.sig] = sig
     }
 
-    init(hash: Data, version: UInt16, type: UInt8, quorumHash: Data, typeWithQuorumHash: Data, quorumIndex: UInt16?, signers: Data, validMembers: Data, quorumPublicKey: Data, quorumVvecHash: Data, quorumSig: Data, sig: Data) {
+    init(
+        hash: Data,
+        version: UInt16,
+        type: UInt8,
+        quorumHash: Data,
+        typeWithQuorumHash: Data,
+        quorumIndex: UInt16?,
+        signers: Data,
+        validMembers: Data,
+        quorumPublicKey: Data,
+        quorumVvecHash: Data,
+        quorumSig: Data,
+        sig: Data
+    ) {
         dataHash = hash
         self.version = version
         self.type = type
@@ -91,6 +106,8 @@ class Quorum: Record {
         super.init()
     }
 }
+
+// MARK: Hashable, Comparable
 
 extension Quorum: Hashable, Comparable {
     public func hash(into hasher: inout Hasher) {

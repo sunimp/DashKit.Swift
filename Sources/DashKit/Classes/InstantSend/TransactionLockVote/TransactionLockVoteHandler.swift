@@ -19,7 +19,12 @@ class TransactionLockVoteHandler: ITransactionLockVoteHandler {
     public weak var delegate: IInstantTransactionDelegate?
     private let logger: Logger?
 
-    init(instantTransactionManager: IInstantTransactionManager, lockVoteManager: ITransactionLockVoteManager, requiredVoteCount: Int = 6, logger: Logger? = nil) {
+    init(
+        instantTransactionManager: IInstantTransactionManager,
+        lockVoteManager: ITransactionLockVoteManager,
+        requiredVoteCount: Int = 6,
+        logger: Logger? = nil
+    ) {
         self.instantTransactionManager = instantTransactionManager
         self.lockVoteManager = lockVoteManager
         self.logger = logger
@@ -33,11 +38,14 @@ class TransactionLockVoteHandler: ITransactionLockVoteHandler {
             return
         }
         // prepare instant inputs for ix
-        let inputs = instantTransactionManager.instantTransactionInputs(for: transaction.header.dataHash, instantTransaction: transaction)
+        let inputs = instantTransactionManager.instantTransactionInputs(
+            for: transaction.header.dataHash,
+            instantTransaction: transaction
+        )
 
         // poll relayed lock votes to update inputs
         let relayedVotes = lockVoteManager.takeRelayedLockVotes(for: transaction.header.dataHash)
-        relayedVotes.forEach { vote in
+        for vote in relayedVotes {
             handle(lockVote: vote, instantInputs: inputs)
         }
     }
@@ -61,7 +69,10 @@ class TransactionLockVoteHandler: ITransactionLockVoteHandler {
     private func handle(lockVote: TransactionLockVoteMessage, instantInputs: [InstantTransactionInput]) {
         lockVoteManager.add(checked: lockVote)
         // ignore votes for inputs which already has 6 votes
-        guard let input = instantInputs.first(where: { $0.inputTxHash == lockVote.outpoint.txHash }), input.voteCount < requiredVoteCount else {
+        guard
+            let input = instantInputs.first(where: { $0.inputTxHash == lockVote.outpoint.txHash }),
+            input.voteCount < requiredVoteCount
+        else {
             return
         }
 

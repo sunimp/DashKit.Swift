@@ -28,9 +28,11 @@ class TransactionLockVoteValidator: ITransactionLockVoteValidator {
         var quorumMasternodes = [QuorumMasternode]()
 
         // 1. Make list of masternodes with quorumHashes
-        masternodes.forEach { masternode in
-
-            let quorumHash = Data(hasher.hash(data: masternode.confirmedHashWithProRegTxHash + lockVote.quorumModifierHash).reversed()) // Score calculated for littleEndiad (check last bytes, then previous and ...)
+        for masternode in masternodes {
+            let quorumHash = Data(
+                hasher.hash(data: masternode.confirmedHashWithProRegTxHash + lockVote.quorumModifierHash)
+                    .reversed()
+            ) // Score calculated for littleEndiad (check last bytes, then previous and ...)
 
             quorumMasternodes.append(QuorumMasternode(quorumHash: quorumHash, masternode: masternode))
         }
@@ -39,7 +41,8 @@ class TransactionLockVoteValidator: ITransactionLockVoteValidator {
         quorumMasternodes.sort(by: >)
 
         // 3. Find index for masternode
-        guard let index = quorumMasternodes.firstIndex(where: { $0.masternode.proRegTxHash == lockVote.masternodeProTxHash }) else {
+        guard let index = quorumMasternodes.firstIndex(where: { $0.masternode.proRegTxHash == lockVote.masternodeProTxHash })
+        else {
             throw DashKitErrors.LockVoteValidation.masternodeNotFound
         }
 

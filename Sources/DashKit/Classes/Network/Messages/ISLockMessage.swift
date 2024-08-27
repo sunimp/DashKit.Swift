@@ -9,8 +9,10 @@ import Foundation
 
 import BitcoinCore
 
+// MARK: - ISLockMessage
+
 struct ISLockMessage: IMessage {
-    let command: String = "islock"
+    let command = "islock"
 
     let inputs: [Outpoint]
     let txHash: Data
@@ -23,6 +25,8 @@ struct ISLockMessage: IMessage {
         "\(txHash) - \(inputs.count) inputs locked"
     }
 }
+
+// MARK: Hashable
 
 extension ISLockMessage: Hashable {
     public func hash(into hasher: inout Hasher) {

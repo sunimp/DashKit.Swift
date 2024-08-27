@@ -35,7 +35,7 @@ class ISLockParser: IMessageParser {
 
         let command = VarInt(id.count).data + (id.data(using: .ascii) ?? Data())
 
-        // requestId - parameter to found quorum. 'islock' + count of inputs + each inputs(outpoint)
+        // requestID - parameter to found quorum. 'islock' + count of inputs + each inputs(outpoint)
         var requestID = command + inputCountVarInt.data
         for outpoint in outpoints {
             requestID += outpoint.txHash + Data(from: outpoint.vout) // TODO: check little or big endian

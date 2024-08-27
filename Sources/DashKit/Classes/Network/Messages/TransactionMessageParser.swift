@@ -11,8 +11,10 @@ import BitcoinCore
 import WWCryptoKit
 import WWExtensions
 
+// MARK: - TransactionMessageParser
+
 class TransactionMessageParser: IMessageParser {
-    let id: String = "tx"
+    let id = "tx"
 
     let hasher: IDashHasher
 
@@ -53,6 +55,8 @@ class TransactionMessageParser: IMessageParser {
         return TransactionMessage(transaction: transaction, size: data.count)
     }
 }
+
+// MARK: TransactionMessageParser.SpecialTransactionError
 
 extension TransactionMessageParser {
     enum SpecialTransactionError: Error {

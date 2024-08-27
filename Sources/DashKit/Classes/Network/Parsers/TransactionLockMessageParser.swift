@@ -9,7 +9,7 @@ import Foundation
 
 import BitcoinCore
 
-// todo identical code with transactionMessageParser
+/// todo identical code with transactionMessageParser
 class TransactionLockMessageParser: IMessageParser {
     var id: String { "ix" }
 

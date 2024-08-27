@@ -10,14 +10,42 @@ import Foundation
 import BitcoinCore
 
 public class DashTransactionInfo: TransactionInfo {
-    public var instantTx: Bool = false
+    public var instantTx = false
 
     private enum CodingKeys: String, CodingKey {
         case instantTx
     }
 
-    public required init(uid: String, transactionHash: String, transactionIndex: Int, inputs: [TransactionInputInfo], outputs: [TransactionOutputInfo], amount: Int, type: TransactionType, fee: Int?, blockHeight: Int?, timestamp: Int, status: TransactionStatus, conflictingHash: String?, rbfEnabled: Bool) {
-        super.init(uid: uid, transactionHash: transactionHash, transactionIndex: transactionIndex, inputs: inputs, outputs: outputs, amount: amount, type: type, fee: fee, blockHeight: blockHeight, timestamp: timestamp, status: status, conflictingHash: conflictingHash, rbfEnabled: rbfEnabled)
+    public required init(
+        uid: String,
+        transactionHash: String,
+        transactionIndex: Int,
+        inputs: [TransactionInputInfo],
+        outputs: [TransactionOutputInfo],
+        amount: Int,
+        type: TransactionType,
+        fee: Int?,
+        blockHeight: Int?,
+        timestamp: Int,
+        status: TransactionStatus,
+        conflictingHash: String?,
+        rbfEnabled: Bool
+    ) {
+        super.init(
+            uid: uid,
+            transactionHash: transactionHash,
+            transactionIndex: transactionIndex,
+            inputs: inputs,
+            outputs: outputs,
+            amount: amount,
+            type: type,
+            fee: fee,
+            blockHeight: blockHeight,
+            timestamp: timestamp,
+            status: status,
+            conflictingHash: conflictingHash,
+            rbfEnabled: rbfEnabled
+        )
     }
 
     public required init(from decoder: Decoder) throws {

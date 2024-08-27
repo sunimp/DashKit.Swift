@@ -64,6 +64,19 @@ class QuorumParser: IQuorumParser {
             quorumSig +
             sig
         let hash = hasher.hash(data: data)
-        return Quorum(hash: hash, version: version, type: type, quorumHash: quorumHash, typeWithQuorumHash: typeWithQuorumHash, quorumIndex: quorumIndex, signers: signers, validMembers: members, quorumPublicKey: quorumPublicKey, quorumVvecHash: quorumVvecHash, quorumSig: quorumSig, sig: sig)
+        return Quorum(
+            hash: hash,
+            version: version,
+            type: type,
+            quorumHash: quorumHash,
+            typeWithQuorumHash: typeWithQuorumHash,
+            quorumIndex: quorumIndex,
+            signers: signers,
+            validMembers: members,
+            quorumPublicKey: quorumPublicKey,
+            quorumVvecHash: quorumVvecHash,
+            quorumSig: quorumSig,
+            sig: sig
+        )
     }
 }

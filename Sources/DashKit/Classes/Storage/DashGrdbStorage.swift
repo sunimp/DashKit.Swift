@@ -10,6 +10,8 @@ import Foundation
 import BitcoinCore
 import GRDB
 
+// MARK: - DashGrdbStorage
+
 class DashGrdbStorage: GrdbStorage {
     override var migrator: GRDB.DatabaseMigrator {
         var migrator = super.migrator
@@ -92,6 +94,8 @@ class DashGrdbStorage: GrdbStorage {
         return migrator
     }
 }
+
+// MARK: IDashStorage
 
 extension DashGrdbStorage: IDashStorage {
     var masternodes: [Masternode] {

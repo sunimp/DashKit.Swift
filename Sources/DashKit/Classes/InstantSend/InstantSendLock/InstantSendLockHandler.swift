@@ -17,7 +17,11 @@ class InstantSendLockHandler: IInstantSendLockHandler {
     public weak var delegate: IInstantTransactionDelegate?
     private let logger: Logger?
 
-    init(instantTransactionManager: IInstantTransactionManager, instantSendLockManager: IInstantSendLockManager, logger: Logger? = nil) {
+    init(
+        instantTransactionManager: IInstantTransactionManager,
+        instantSendLockManager: IInstantSendLockManager,
+        logger: Logger? = nil
+    ) {
         self.instantTransactionManager = instantTransactionManager
         instantLockManager = instantSendLockManager
         self.logger = logger
