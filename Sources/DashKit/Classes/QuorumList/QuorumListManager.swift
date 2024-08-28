@@ -24,7 +24,13 @@ class QuorumListManager: IQuorumListManager {
     private let quorumSortedList: IQuorumSortedList
     private let merkleBranch: IMerkleBranch
 
-    init(storage: IDashStorage, hasher: IDashHasher, quorumListMerkleRootCalculator: IQuorumListMerkleRootCalculator, merkleBranch: IMerkleBranch, quorumSortedList: IQuorumSortedList = QuorumSortedList()) {
+    init(
+        storage: IDashStorage,
+        hasher: IDashHasher,
+        quorumListMerkleRootCalculator: IQuorumListMerkleRootCalculator,
+        merkleBranch: IMerkleBranch,
+        quorumSortedList: IQuorumSortedList = QuorumSortedList()
+    ) {
         self.storage = storage
         self.hasher = hasher
         self.quorumListMerkleRootCalculator = quorumListMerkleRootCalculator

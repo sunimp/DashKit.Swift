@@ -9,9 +9,22 @@ import Foundation
 
 import BitcoinCore
 
-extension DifficultyEncoder: IDashDifficultyEncoder {}
-extension BlockValidatorHelper: IDashBlockValidatorHelper {}
-extension TransactionSizeCalculator: IDashTransactionSizeCalculator {}
-extension TransactionSyncer: IDashTransactionSyncer {}
+// MARK: - DifficultyEncoder + IDashDifficultyEncoder
 
-extension DoubleShaHasher: IDashHasher {}
+extension DifficultyEncoder: IDashDifficultyEncoder { }
+
+// MARK: - BlockValidatorHelper + IDashBlockValidatorHelper
+
+extension BlockValidatorHelper: IDashBlockValidatorHelper { }
+
+// MARK: - TransactionSizeCalculator + IDashTransactionSizeCalculator
+
+extension TransactionSizeCalculator: IDashTransactionSizeCalculator { }
+
+// MARK: - TransactionSyncer + IDashTransactionSyncer
+
+extension TransactionSyncer: IDashTransactionSyncer { }
+
+// MARK: - DoubleShaHasher + IDashHasher
+
+extension DoubleShaHasher: IDashHasher { }

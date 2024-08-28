@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - QuorumMasternode
+
 class QuorumMasternode {
     let quorumHash: Data
     let masternode: Masternode
@@ -16,6 +18,8 @@ class QuorumMasternode {
         self.masternode = masternode
     }
 }
+
+// MARK: Hashable, Comparable
 
 extension QuorumMasternode: Hashable, Comparable {
     public func hash(into hasher: inout Hasher) {

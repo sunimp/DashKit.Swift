@@ -19,7 +19,14 @@ class DarkGravityWaveValidator: IBlockChainedValidator {
     private let maxTargetBits: Int
     private let powDGWHeight: Int
 
-    init(encoder: IDashDifficultyEncoder, blockHelper: IDashBlockValidatorHelper, heightInterval: Int, targetTimeSpan: Int, maxTargetBits: Int, powDGWHeight: Int) {
+    init(
+        encoder: IDashDifficultyEncoder,
+        blockHelper: IDashBlockValidatorHelper,
+        heightInterval: Int,
+        targetTimeSpan: Int,
+        maxTargetBits: Int,
+        powDGWHeight: Int
+    ) {
         difficultyEncoder = encoder
         self.blockHelper = blockHelper
 

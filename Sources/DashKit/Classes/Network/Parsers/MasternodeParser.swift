@@ -39,6 +39,19 @@ class MasternodeParser: IMasternodeParser {
 
         let confirmedHashWithProRegTxHash = hasher.hash(data: proRegTxHash + confirmedHash)
 
-        return Masternode(nVersion: nVersion, proRegTxHash: proRegTxHash, confirmedHash: confirmedHash, confirmedHashWithProRegTxHash: confirmedHashWithProRegTxHash, ipAddress: ipAddress, port: port, pubKeyOperator: pubKeyOperator, keyIDVoting: keyIDVoting, isValid: isValid, type: type, platformHTTPPort: platformHTTPPort, platformNodeID: platformNodeID)
+        return Masternode(
+            nVersion: nVersion,
+            proRegTxHash: proRegTxHash,
+            confirmedHash: confirmedHash,
+            confirmedHashWithProRegTxHash: confirmedHashWithProRegTxHash,
+            ipAddress: ipAddress,
+            port: port,
+            pubKeyOperator: pubKeyOperator,
+            keyIDVoting: keyIDVoting,
+            isValid: isValid,
+            type: type,
+            platformHTTPPort: platformHTTPPort,
+            platformNodeID: platformNodeID
+        )
     }
 }

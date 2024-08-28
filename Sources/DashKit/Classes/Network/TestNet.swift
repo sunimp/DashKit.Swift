@@ -18,15 +18,15 @@ class TestNet: INetwork {
     let pubKeyHash: UInt8 = 0x8C
     let privateKey: UInt8 = 0x80
     let scriptHash: UInt8 = 0x13
-    let bech32PrefixPattern: String = "bc"
+    let bech32PrefixPattern = "bc"
     let xPubKey: UInt32 = 0x0488_B21E
     let xPrivKey: UInt32 = 0x0488_ADE4
     let magic: UInt32 = 0xCEE2_CAFF
     let port = 19999
     let coinType: UInt32 = 1
     let sigHash: SigHashType = .bitcoinAll
-    var syncableFromApi: Bool = true
-    var blockchairChainId: String = ""
+    var syncableFromApi = true
+    var blockchairChainId = ""
 
     let dnsSeeds = [
         "testnet-seed.dashdot.io",

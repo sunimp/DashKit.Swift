@@ -17,7 +17,13 @@ class DarkGravityWaveTestNetValidator: IBlockChainedValidator {
     private let maxTargetBits: Int
     private let powDGWHeight: Int
 
-    init(difficultyEncoder: IDashDifficultyEncoder, targetSpacing: Int, targetTimeSpan: Int, maxTargetBits: Int, powDGWHeight: Int) {
+    init(
+        difficultyEncoder: IDashDifficultyEncoder,
+        targetSpacing: Int,
+        targetTimeSpan: Int,
+        maxTargetBits: Int,
+        powDGWHeight: Int
+    ) {
         self.difficultyEncoder = difficultyEncoder
 
         self.targetSpacing = targetSpacing

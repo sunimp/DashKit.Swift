@@ -10,6 +10,8 @@ import Foundation
 import BigInt
 import BitcoinCore
 
+// MARK: - IDashDifficultyEncoder
+
 // BitcoinCore Compatibility
 
 protocol IDashDifficultyEncoder {
@@ -17,13 +19,19 @@ protocol IDashDifficultyEncoder {
     func encodeCompact(from bigInt: BigInt) -> Int
 }
 
+// MARK: - IDashHasher
+
 protocol IDashHasher {
     func hash(data: Data) -> Data
 }
 
+// MARK: - IDashBlockValidatorHelper
+
 protocol IDashBlockValidatorHelper {
     func previous(for block: Block, count: Int) -> Block?
 }
+
+// MARK: - IDashTransactionSizeCalculator
 
 protocol IDashTransactionSizeCalculator {
     func transactionSize(previousOutputs: [Output], outputScriptTypes: [ScriptType], memo: String?) -> Int
@@ -32,9 +40,13 @@ protocol IDashTransactionSizeCalculator {
     func toBytes(fee: Int) -> Int
 }
 
+// MARK: - IDashTransactionSyncer
+
 protocol IDashTransactionSyncer {
     func handleRelayed(transactions: [FullTransaction])
 }
+
+// MARK: - IDashPeer
 
 protocol IDashPeer: IPeer {
     var delegate: PeerDelegate? { get set }
@@ -55,6 +67,8 @@ protocol IDashPeer: IPeer {
     func equalTo(_ peer: IPeer?) -> Bool
 }
 
+// MARK: - DashKitDelegate
+
 // ###############################
 
 public protocol DashKitDelegate: AnyObject {
@@ -65,21 +79,31 @@ public protocol DashKitDelegate: AnyObject {
     func kitStateUpdated(state: BitcoinCore.KitState)
 }
 
+// MARK: - IPeerTaskFactory
+
 protocol IPeerTaskFactory {
     func createRequestMasternodeListDiffTask(baseBlockHash: Data, blockHash: Data) -> PeerTask
 }
+
+// MARK: - IMasternodeListManager
 
 protocol IMasternodeListManager {
     var baseBlockHash: Data { get }
     func updateList(masternodeListDiffMessage: MasternodeListDiffMessage) throws
 }
 
+// MARK: - IQuorumListManager
+
 protocol IQuorumListManager {
     func updateList(masternodeListDiffMessage: MasternodeListDiffMessage) throws
     func quorum(for requestID: Data, type: QuorumType) throws -> Quorum
 }
 
-protocol IMasternodeListSyncer {}
+// MARK: - IMasternodeListSyncer
+
+protocol IMasternodeListSyncer { }
+
+// MARK: - IDashStorage
 
 protocol IDashStorage {
     var masternodes: [Masternode] { get set }
@@ -107,9 +131,13 @@ protocol IDashStorage {
     func transactionFullInfo(byHash hash: Data) -> FullTransactionForInfo?
 }
 
+// MARK: - IInstantSendFactory
+
 protocol IInstantSendFactory {
     func instantTransactionInput(txHash: Data, inputTxHash: Data, voteCount: Int, blockHeight: Int?) -> InstantTransactionInput
 }
+
+// MARK: - IMasternodeSortedList
 
 protocol IMasternodeSortedList {
     var masternodes: [Masternode] { get }
@@ -120,6 +148,8 @@ protocol IMasternodeSortedList {
     func remove(by proRegTxHashes: [Data])
 }
 
+// MARK: - IQuorumSortedList
+
 protocol IQuorumSortedList {
     var quorums: [Quorum] { get }
 
@@ -129,29 +159,43 @@ protocol IQuorumSortedList {
     func remove(by pairs: [(type: UInt8, quorumHash: Data)])
 }
 
+// MARK: - IMasternodeListMerkleRootCalculator
+
 protocol IMasternodeListMerkleRootCalculator {
     func calculateMerkleRoot(sortedMasternodes: [Masternode]) -> Data?
 }
+
+// MARK: - IQuorumListMerkleRootCalculator
 
 protocol IQuorumListMerkleRootCalculator {
     func calculateMerkleRoot(sortedQuorums: [Quorum]) -> Data?
 }
 
+// MARK: - IMasternodeCbTxHasher
+
 protocol IMasternodeCbTxHasher {
     func hash(coinbaseTransaction: CoinbaseTransaction) -> Data
 }
+
+// MARK: - IMasternodeSerializer
 
 protocol IMasternodeSerializer {
     func serialize(masternode: Masternode) -> Data
 }
 
+// MARK: - ICoinbaseTransactionSerializer
+
 protocol ICoinbaseTransactionSerializer {
     func serialize(coinbaseTransaction: CoinbaseTransaction) -> Data
 }
 
+// MARK: - IMerkleRootCreator
+
 protocol IMerkleRootCreator {
     func create(hashes: [Data]) -> Data?
 }
+
+// MARK: - IInstantTransactionManager
 
 protocol IInstantTransactionManager {
     func instantTransactionInputs(for txHash: Data, instantTransaction: FullTransaction?) -> [InstantTransactionInput]
@@ -161,36 +205,52 @@ protocol IInstantTransactionManager {
     func makeInstant(txHash: Data)
 }
 
+// MARK: - IInstantTransactionDelegate
+
 public protocol IInstantTransactionDelegate: AnyObject {
     func onUpdateInstant(transactionHash: Data)
 }
+
+// MARK: - IInstantTransactionState
 
 protocol IInstantTransactionState {
     var instantTransactionHashes: [Data] { get set }
     func append(_ hash: Data)
 }
 
+// MARK: - IMasternodeParser
+
 protocol IMasternodeParser {
     func parse(byteStream: ByteStream) -> Masternode
 }
 
+// MARK: - IQuorumParser
+
 protocol IQuorumParser {
     func parse(byteStream: ByteStream) -> Quorum
 }
+
+// MARK: - ITransactionLockVoteHandler
 
 protocol ITransactionLockVoteHandler {
     func handle(transaction: FullTransaction)
     func handle(lockVote: TransactionLockVoteMessage)
 }
 
+// MARK: - IInstantSendLockHandler
+
 protocol IInstantSendLockHandler {
     func handle(transactionHash: Data)
     func handle(isLock: ISLockMessage)
 }
 
+// MARK: - ITransactionLockVoteValidator
+
 protocol ITransactionLockVoteValidator {
     func validate(lockVote: TransactionLockVoteMessage) throws
 }
+
+// MARK: - ITransactionLockVoteManager
 
 protocol ITransactionLockVoteManager {
     var relayedLockVotes: Set<TransactionLockVoteMessage> { get }
@@ -204,9 +264,13 @@ protocol ITransactionLockVoteManager {
     func validate(lockVote: TransactionLockVoteMessage) throws
 }
 
+// MARK: - IInstantSendLockValidator
+
 protocol IInstantSendLockValidator {
     func validate(isLock: ISLockMessage) throws
 }
+
+// MARK: - IInstantSendLockManager
 
 protocol IInstantSendLockManager {
     var relayedLocks: [Data: ISLockMessage] { get }

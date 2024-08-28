@@ -9,6 +9,8 @@ import Foundation
 
 import GRDB
 
+// MARK: - Masternode
+
 class Masternode: Record {
     let nVersion: UInt16
     let proRegTxHash: Data
@@ -74,7 +76,20 @@ class Masternode: Record {
         container[Columns.platformNodeID] = platformNodeID
     }
 
-    init(nVersion: UInt16, proRegTxHash: Data, confirmedHash: Data, confirmedHashWithProRegTxHash: Data, ipAddress: Data, port: UInt16, pubKeyOperator: Data, keyIDVoting: Data, isValid: Bool, type: UInt16?, platformHTTPPort: UInt16?, platformNodeID: Data?) {
+    init(
+        nVersion: UInt16,
+        proRegTxHash: Data,
+        confirmedHash: Data,
+        confirmedHashWithProRegTxHash: Data,
+        ipAddress: Data,
+        port: UInt16,
+        pubKeyOperator: Data,
+        keyIDVoting: Data,
+        isValid: Bool,
+        type: UInt16?,
+        platformHTTPPort: UInt16?,
+        platformNodeID: Data?
+    ) {
         self.nVersion = nVersion
         self.proRegTxHash = proRegTxHash
         self.confirmedHash = confirmedHash
@@ -91,6 +106,8 @@ class Masternode: Record {
         super.init()
     }
 }
+
+// MARK: Hashable, Comparable
 
 extension Masternode: Hashable, Comparable {
     public func hash(into hasher: inout Hasher) {

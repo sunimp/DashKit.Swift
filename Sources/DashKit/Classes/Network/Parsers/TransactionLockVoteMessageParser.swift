@@ -27,11 +27,14 @@ class TransactionLockVoteMessageParser: IMessageParser {
 
         let hash = Crypto.doubleSha256(data.prefix(168))
 
-        return TransactionLockVoteMessage(txHash: txHash,
-                                          outpoint: outpoint,
-                                          outpointMasternode: outpointMasternode,
-                                          quorumModifierHash: quorumModifierHash,
-                                          masternodeProTxHash: masternodeProTxHash,
-                                          vchMasternodeSignature: vchMasternodeSignature, hash: hash)
+        return TransactionLockVoteMessage(
+            txHash: txHash,
+            outpoint: outpoint,
+            outpointMasternode: outpointMasternode,
+            quorumModifierHash: quorumModifierHash,
+            masternodeProTxHash: masternodeProTxHash,
+            vchMasternodeSignature: vchMasternodeSignature,
+            hash: hash
+        )
     }
 }

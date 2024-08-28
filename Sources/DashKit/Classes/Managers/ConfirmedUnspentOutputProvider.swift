@@ -9,6 +9,8 @@ import Foundation
 
 import BitcoinCore
 
+// MARK: - ConfirmedUnspentOutputProvider
+
 class ConfirmedUnspentOutputProvider {
     let storage: IDashStorage
     let confirmationsThreshold: Int
@@ -18,6 +20,8 @@ class ConfirmedUnspentOutputProvider {
         self.confirmationsThreshold = confirmationsThreshold
     }
 }
+
+// MARK: IUnspentOutputProvider
 
 extension ConfirmedUnspentOutputProvider: IUnspentOutputProvider {
     func spendableUtxo(filters: UtxoFilters) -> [UnspentOutput] {
@@ -33,8 +37,9 @@ extension ConfirmedUnspentOutputProvider: IUnspentOutputProvider {
                 return false
             }
 
-            if let outputsCount = filters.maxOutputsCountForInputs,
-               storage.outputsCount(transactionHash: utxo.transaction.dataHash) > outputsCount
+            if
+                let outputsCount = filters.maxOutputsCountForInputs,
+                storage.outputsCount(transactionHash: utxo.transaction.dataHash) > outputsCount
             {
                 return false
             }

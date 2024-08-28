@@ -10,7 +10,11 @@ import Foundation
 import BitcoinCore
 import WWToolKit
 
+// MARK: - DashInventoryType
+
 enum DashInventoryType: Int32 { case msgTxLockRequest = 4, msgTxLockVote = 5, msgIsLock = 30 }
+
+// MARK: - InstantSend
 
 class InstantSend {
     static let requiredVoteCount = 6
@@ -21,7 +25,13 @@ class InstantSend {
     private let instantSendLockHandler: IInstantSendLockHandler
     private let logger: Logger?
 
-    init(transactionSyncer: IDashTransactionSyncer, transactionLockVoteHandler: ITransactionLockVoteHandler, instantSendLockHandler: IInstantSendLockHandler, dispatchQueue: DispatchQueue = DispatchQueue(label: "com.sunimp.dash-kit.instant-send", qos: .userInitiated), logger: Logger? = nil) {
+    init(
+        transactionSyncer: IDashTransactionSyncer,
+        transactionLockVoteHandler: ITransactionLockVoteHandler,
+        instantSendLockHandler: IInstantSendLockHandler,
+        dispatchQueue: DispatchQueue = DispatchQueue(label: "com.sunimp.dash-kit.instant-send", qos: .userInitiated),
+        logger: Logger? = nil
+    ) {
         self.transactionSyncer = transactionSyncer
         self.transactionLockVoteHandler = transactionLockVoteHandler
         self.instantSendLockHandler = instantSendLockHandler
@@ -34,6 +44,8 @@ class InstantSend {
         instantSendLockHandler.handle(transactionHash: insertedTxHash)
     }
 }
+
+// MARK: IPeerTaskHandler
 
 extension InstantSend: IPeerTaskHandler {
     public func handleCompletedTask(peer _: IPeer, task: PeerTask) -> Bool {
@@ -81,13 +93,15 @@ extension InstantSend: IPeerTaskHandler {
     }
 }
 
+// MARK: IInventoryItemsHandler
+
 extension InstantSend: IInventoryItemsHandler {
     func handleInventoryItems(peer: IPeer, inventoryItems: [InventoryItem]) {
         var transactionLockRequests = [Data]()
         var transactionLockVotes = [Data]()
         var isLocks = [Data]()
 
-        inventoryItems.forEach { item in
+        for item in inventoryItems {
             switch item.type {
             case DashInventoryType.msgTxLockRequest.rawValue:
                 transactionLockRequests.append(item.hash)

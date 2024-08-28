@@ -9,6 +9,8 @@ import Foundation
 
 import BitcoinCore
 
+// MARK: - InstantTransactionManager
+
 class InstantTransactionManager {
     private var state: IInstantTransactionState
 
@@ -30,7 +32,12 @@ class InstantTransactionManager {
     private func makeInputs(for txHash: Data, inputs: [Input]) -> [InstantTransactionInput] {
         var instantInputs = [InstantTransactionInput]()
         for input in inputs {
-            let instantInput = instantSendFactory.instantTransactionInput(txHash: txHash, inputTxHash: input.previousOutputTxHash, voteCount: 0, blockHeight: nil)
+            let instantInput = instantSendFactory.instantTransactionInput(
+                txHash: txHash,
+                inputTxHash: input.previousOutputTxHash,
+                voteCount: 0,
+                blockHeight: nil
+            )
 
             storage.add(instantTransactionInput: instantInput)
             instantInputs.append(instantInput)
@@ -38,6 +45,8 @@ class InstantTransactionManager {
         return instantInputs
     }
 }
+
+// MARK: IInstantTransactionManager
 
 extension InstantTransactionManager: IInstantTransactionManager {
     func instantTransactionInputs(for txHash: Data, instantTransaction: FullTransaction?) -> [InstantTransactionInput] {
@@ -63,7 +72,12 @@ extension InstantTransactionManager: IInstantTransactionManager {
             throw DashKitErrors.LockVoteValidation.txInputNotFound
         }
         let input = transactionInputs[inputIndex]
-        let increasedInput = instantSendFactory.instantTransactionInput(txHash: input.txHash, inputTxHash: input.inputTxHash, voteCount: input.voteCount + 1, blockHeight: input.blockHeight)
+        let increasedInput = instantSendFactory.instantTransactionInput(
+            txHash: input.txHash,
+            inputTxHash: input.inputTxHash,
+            voteCount: input.voteCount + 1,
+            blockHeight: input.blockHeight
+        )
         storage.add(instantTransactionInput: increasedInput)
 
         updatedInputs[inputIndex] = increasedInput

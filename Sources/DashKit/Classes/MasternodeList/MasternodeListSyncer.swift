@@ -5,10 +5,12 @@
 //  Created by Sun on 2024/8/21.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 import BitcoinCore
+
+// MARK: - MasternodeListSyncer
 
 class MasternodeListSyncer: IMasternodeListSyncer {
     private var cancellables = Set<AnyCancellable>()
@@ -20,9 +22,13 @@ class MasternodeListSyncer: IMasternodeListSyncer {
     private var workingPeer: IPeer? = nil
     private let queue: DispatchQueue
 
-    init(bitcoinCore: BitcoinCore, initialBlockDownload: IInitialDownload, peerTaskFactory: IPeerTaskFactory, masternodeListManager: IMasternodeListManager,
-         queue: DispatchQueue = DispatchQueue(label: "com.sunimp.dash-kit.masternode-list-syncer", qos: .background))
-    {
+    init(
+        bitcoinCore: BitcoinCore,
+        initialBlockDownload: IInitialDownload,
+        peerTaskFactory: IPeerTaskFactory,
+        masternodeListManager: IMasternodeListManager,
+        queue: DispatchQueue = DispatchQueue(label: "com.sunimp.dash-kit.masternode-list-syncer", qos: .background)
+    ) {
         self.bitcoinCore = bitcoinCore
         self.initialBlockDownload = initialBlockDownload
         self.peerTaskFactory = peerTaskFactory
@@ -32,10 +38,11 @@ class MasternodeListSyncer: IMasternodeListSyncer {
 
     private func assignNextSyncPeer() {
         queue.async {
-            guard self.workingPeer == nil,
-                  let lastBlockInfo = self.bitcoinCore?.lastBlockInfo,
-                  let syncedPeer = self.initialBlockDownload.syncedPeers.first,
-                  let blockHash = lastBlockInfo.headerHash.reversedData
+            guard
+                self.workingPeer == nil,
+                let lastBlockInfo = self.bitcoinCore?.lastBlockInfo,
+                let syncedPeer = self.initialBlockDownload.syncedPeers.first,
+                let blockHash = lastBlockInfo.headerHash.reversedData
             else {
                 return
             }
@@ -43,7 +50,10 @@ class MasternodeListSyncer: IMasternodeListSyncer {
             let baseBlockHash = self.masternodeListManager.baseBlockHash
 
             if blockHash != baseBlockHash {
-                let task = self.peerTaskFactory.createRequestMasternodeListDiffTask(baseBlockHash: baseBlockHash, blockHash: blockHash)
+                let task = self.peerTaskFactory.createRequestMasternodeListDiffTask(
+                    baseBlockHash: baseBlockHash,
+                    blockHash: blockHash
+                )
                 syncedPeer.add(task: task)
 
                 self.workingPeer = syncedPeer
@@ -55,7 +65,7 @@ class MasternodeListSyncer: IMasternodeListSyncer {
         publisher
             .sink { [weak self] event in
                 switch event {
-                case let .onPeerDisconnect(peer, error): self?.onPeerDisconnect(peer: peer, error: error)
+                case .onPeerDisconnect(let peer, let error): self?.onPeerDisconnect(peer: peer, error: error)
                 default: ()
                 }
             }
@@ -66,7 +76,7 @@ class MasternodeListSyncer: IMasternodeListSyncer {
         publisher
             .sink { [weak self] event in
                 switch event {
-                case let .onPeerSynced(peer): self?.onPeerSynced(peer: peer)
+                case .onPeerSynced(let peer): self?.onPeerSynced(peer: peer)
                 default: ()
                 }
             }
@@ -90,6 +100,8 @@ extension MasternodeListSyncer {
     }
 }
 
+// MARK: IPeerTaskHandler
+
 extension MasternodeListSyncer: IPeerTaskHandler {
     func handleCompletedTask(peer: IPeer, task: PeerTask) -> Bool {
         switch task {
@@ -103,6 +115,7 @@ extension MasternodeListSyncer: IPeerTaskHandler {
                 }
             }
             return true
+
         default: return false
         }
     }
