@@ -1,28 +1,35 @@
 //
-//  DashGrdbStorage.swift
-//  DashKit
+//  QuorumListManager.swift
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/30.
 //
 
 import Foundation
 
 import BitcoinCore
 
-// 01. Create a copy of the active LLMQ sets which were given at "baseBlockHash". If “baseBlockHash” is all-zero, empty sets must be used.
+// 01. Create a copy of the active LLMQ sets which were given at "baseBlockHash". If “baseBlockHash” is all-zero, empty
+// sets must be used.
 // 02. Delete all entries found in "deletedQuorums" from the corresponding active LLMQ sets.
-// 03. Verify each final commitment found in "newQuorums", by the same rules found in DIP6 - Long-Living Masternode Quorums. If any final commitment is invalid, abort the process and ask for diffs from another node.
+// 03. Verify each final commitment found in "newQuorums", by the same rules found in DIP6 - Long-Living Masternode
+// Quorums. If any final commitment is invalid, abort the process and ask for diffs from another node.
 // 04. Add the LLMQ defined by the final commitments found in "newQuorums" to the corresponding active LLMQ sets.
-// 05. Calculate the merkle root of the active LLMQ sets by following the “Calculating the merkle root of the active LLMQs” section
-// 06. Compare the calculated merkle root with what is found in “cbTx”. If it does not match, abort the process and ask for diffs from another node.
+// 05. Calculate the merkle root of the active LLMQ sets by following the “Calculating the merkle root of the active
+// LLMQs” section
+// 06. Compare the calculated merkle root with what is found in “cbTx”. If it does not match, abort the process and ask
+// for diffs from another node.
 // 07. Store the new active LLMQ sets the same way the masternode list is stored.
 
 class QuorumListManager: IQuorumListManager {
+    // MARK: Properties
+
     private var storage: IDashStorage
     private let hasher: IDashHasher
     private let quorumListMerkleRootCalculator: IQuorumListMerkleRootCalculator
     private let quorumSortedList: IQuorumSortedList
     private let merkleBranch: IMerkleBranch
+
+    // MARK: Lifecycle
 
     init(
         storage: IDashStorage,
@@ -37,6 +44,8 @@ class QuorumListManager: IQuorumListManager {
         self.merkleBranch = merkleBranch
         self.quorumSortedList = quorumSortedList
     }
+
+    // MARK: Functions
 
     func updateList(masternodeListDiffMessage: MasternodeListDiffMessage) throws {
         if let merkleRootQuorums = masternodeListDiffMessage.cbTx.merkleRootQuorums {

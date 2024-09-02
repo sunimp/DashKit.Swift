@@ -1,17 +1,22 @@
 //
 //  QuorumSortedList.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/30.
 //
 
 import Foundation
 
 class QuorumSortedList: IQuorumSortedList {
+    // MARK: Properties
+
     private var quorumSet = Set<Quorum>()
+
+    // MARK: Computed Properties
 
     var quorums: [Quorum] { quorumSet.sorted()
     }
+
+    // MARK: Functions
 
     func add(quorums: [Quorum]) {
         quorumSet = Set(quorums).union(quorumSet)

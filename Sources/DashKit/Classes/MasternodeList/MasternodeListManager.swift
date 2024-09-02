@@ -1,8 +1,7 @@
 //
 //  MasternodeListManager.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/26.
 //
 
 import Foundation
@@ -10,6 +9,8 @@ import Foundation
 import BitcoinCore
 
 class MasternodeListManager: IMasternodeListManager {
+    // MARK: Properties
+
     private var storage: IDashStorage
     private let quorumListManager: IQuorumListManager
     private let masternodeListMerkleRootCalculator: IMasternodeListMerkleRootCalculator
@@ -17,7 +18,11 @@ class MasternodeListManager: IMasternodeListManager {
     private let masternodeSortedList: IMasternodeSortedList
     private let merkleBranch: IMerkleBranch
 
+    // MARK: Computed Properties
+
     var baseBlockHash: Data { storage.masternodeListState?.baseBlockHash ?? Data(repeating: 0, count: 32) }
+
+    // MARK: Lifecycle
 
     init(
         storage: IDashStorage,
@@ -35,23 +40,34 @@ class MasternodeListManager: IMasternodeListManager {
         self.masternodeSortedList = masternodeSortedList
     }
 
+    // MARK: Functions
+
     func updateList(masternodeListDiffMessage: MasternodeListDiffMessage) throws {
         masternodeSortedList.removeAll()
 
-        // 01.Create a copy of the masternode list which was valid at “baseBlockHash”. If “baseBlockHash” is all-zero, an empty list must be used.
+        // 01.Create a copy of the masternode list which was valid at “baseBlockHash”. If “baseBlockHash” is all-zero,
+        // an empty list must be used.
         masternodeSortedList.add(masternodes: storage.masternodes)
-        // 02.Delete all entries found in “deletedMNs” from this list. Please note that “deletedMNs” contains the ProRegTx hashes of the masternodes and NOT the hashes of the SML entries.
+        // 02.Delete all entries found in “deletedMNs” from this list. Please note that “deletedMNs” contains the
+        // ProRegTx hashes of the masternodes and NOT the hashes of the SML entries.
         masternodeSortedList.remove(by: masternodeListDiffMessage.deletedMNs)
         // 03.Add or replace all entries found in “mnList” in the list
         masternodeSortedList.add(masternodes: masternodeListDiffMessage.mnList)
-        // 04.Calculate the merkle root of the list by following the “Calculating the merkle root of the Masternode list” section
-        let hash = masternodeListMerkleRootCalculator.calculateMerkleRoot(sortedMasternodes: masternodeSortedList.masternodes)
+        // 04.Calculate the merkle root of the list by following the “Calculating the merkle root of the Masternode
+        // list” section
+        let hash = masternodeListMerkleRootCalculator
+            .calculateMerkleRoot(sortedMasternodes: masternodeSortedList.masternodes)
 
-        // 05.Compare the calculated merkle root with what is found in “cbTx”. If it does not match, abort the process and ask for diffs from another node.
+        // 05.Compare the calculated merkle root with what is found in “cbTx”. If it does not match, abort the process
+        // and ask for diffs from another node.
         guard masternodeListDiffMessage.cbTx.merkleRootMNList == hash else {
             throw DashKitErrors.MasternodeListValidation.wrongMerkleRootList
         }
-        // 06.Calculate the hash of “cbTx” and verify existence of this transaction in the block specified by “blockHash”. To do this, use the already received block header and the fields “totalTransactions”, “merkleHashes” and “merkleFlags” from the MNLISTDIFF message and perform a merkle verification the same way as done when a “MERKLEBLOCK” message is received. If the verification fails, abort the process and ask for diffs from another node.
+        // 06.Calculate the hash of “cbTx” and verify existence of this transaction in the block specified by
+        // “blockHash”. To do this, use the already received block header and the fields “totalTransactions”,
+        // “merkleHashes” and “merkleFlags” from the MNLISTDIFF message and perform a merkle verification the same way
+        // as done when a “MERKLEBLOCK” message is received. If the verification fails, abort the process and ask for
+        // diffs from another node.
         let cbTxHash = masternodeCbTxHasher.hash(coinbaseTransaction: masternodeListDiffMessage.cbTx)
 
         let calculatedMerkleRootData = try merkleBranch.calculateMerkleRoot(

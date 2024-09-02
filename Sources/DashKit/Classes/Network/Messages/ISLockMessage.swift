@@ -1,8 +1,7 @@
 //
 //  ISLockMessage.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/27.
 //
 
 import Foundation
@@ -12,6 +11,8 @@ import BitcoinCore
 // MARK: - ISLockMessage
 
 struct ISLockMessage: IMessage {
+    // MARK: Properties
+
     let command = "islock"
 
     let inputs: [Outpoint]
@@ -20,6 +21,8 @@ struct ISLockMessage: IMessage {
     let hash: Data
 
     let requestID: Data
+
+    // MARK: Computed Properties
 
     var description: String {
         "\(txHash) - \(inputs.count) inputs locked"

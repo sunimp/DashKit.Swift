@@ -1,14 +1,19 @@
 //
 //  InstantSendFactory.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/28.
 //
 
 import Foundation
 
 class InstantSendFactory: IInstantSendFactory {
-    func instantTransactionInput(txHash: Data, inputTxHash: Data, voteCount: Int, blockHeight: Int?) -> InstantTransactionInput {
+    func instantTransactionInput(
+        txHash: Data,
+        inputTxHash: Data,
+        voteCount: Int,
+        blockHeight: Int?
+    )
+        -> InstantTransactionInput {
         let timeCreated = Int(Date().timeIntervalSince1970)
 
         return InstantTransactionInput(

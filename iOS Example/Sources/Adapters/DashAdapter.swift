@@ -12,7 +12,7 @@ class DashAdapter: BaseAdapter {
     init(words: [String], testMode: Bool, syncMode: BitcoinCore.SyncMode, logger: Logger) {
         let networkType: Kit.NetworkType = testMode ? .testNet : .mainNet
         let seed = Mnemonic.seed(mnemonic: words)
-        dashKit = try! Kit(seed: seed ?? Data(), walletId: "walletId", syncMode: syncMode, networkType: networkType, logger: logger.scoped(with: "DashKit"))
+        dashKit = try! Kit(seed: seed ?? Data(), walletID: "walletID", syncMode: syncMode, networkType: networkType, logger: logger.scoped(with: "DashKit"))
 
         super.init(name: "Dash", coinCode: "DASH", abstractKit: dashKit)
         dashKit.delegate = self

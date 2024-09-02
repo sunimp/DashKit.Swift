@@ -1,8 +1,7 @@
 //
 //  RequestMasternodeListDiffTask.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -11,15 +10,21 @@ import BitcoinCore
 import WWExtensions
 
 class RequestMasternodeListDiffTask: PeerTask {
+    // MARK: Properties
+
     let baseBlockHash: Data
     let blockHash: Data
 
     var masternodeListDiffMessage: MasternodeListDiffMessage? = nil
 
+    // MARK: Lifecycle
+
     init(baseBlockHash: Data, blockHash: Data) {
         self.baseBlockHash = baseBlockHash
         self.blockHash = blockHash
     }
+
+    // MARK: Overridden Functions
 
     override func start() {
         let message = GetMasternodeListDiffMessage(baseBlockHash: baseBlockHash, blockHash: blockHash)
@@ -32,8 +37,7 @@ class RequestMasternodeListDiffTask: PeerTask {
     override func handle(message: IMessage) -> Bool {
         if
             let message = message as? MasternodeListDiffMessage, message.baseBlockHash == baseBlockHash,
-            message.blockHash == blockHash
-        {
+            message.blockHash == blockHash {
             masternodeListDiffMessage = message
 
             delegate?.handle(completedTask: self)

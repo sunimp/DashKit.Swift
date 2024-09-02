@@ -1,8 +1,7 @@
 //
 //  InstantTransactionManager.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/28.
 //
 
 import Foundation
@@ -12,22 +11,34 @@ import BitcoinCore
 // MARK: - InstantTransactionManager
 
 class InstantTransactionManager {
-    private var state: IInstantTransactionState
+    // MARK: Nested Types
 
     enum InstantSendHandleError: Error {
         case instantTransactionNotExist
     }
 
+    // MARK: Properties
+
+    private var state: IInstantTransactionState
+
     private var storage: IDashStorage
     private var instantSendFactory: IInstantSendFactory
 
-    init(storage: IDashStorage, instantSendFactory: IInstantSendFactory, instantTransactionState: IInstantTransactionState) {
+    // MARK: Lifecycle
+
+    init(
+        storage: IDashStorage,
+        instantSendFactory: IInstantSendFactory,
+        instantTransactionState: IInstantTransactionState
+    ) {
         self.storage = storage
         self.instantSendFactory = instantSendFactory
         state = instantTransactionState
 
         state.instantTransactionHashes = storage.instantTransactionHashes()
     }
+
+    // MARK: Functions
 
     private func makeInputs(for txHash: Data, inputs: [Input]) -> [InstantTransactionInput] {
         var instantInputs = [InstantTransactionInput]()

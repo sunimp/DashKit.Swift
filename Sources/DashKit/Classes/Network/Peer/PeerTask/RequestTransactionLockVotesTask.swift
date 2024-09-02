@@ -1,8 +1,7 @@
 //
 //  RequestTransactionLockVotesTask.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -10,14 +9,20 @@ import Foundation
 import BitcoinCore
 
 class RequestTransactionLockVotesTask: PeerTask {
+    // MARK: Properties
+
     var hashes = [Data]()
     var transactionLockVotes = [TransactionLockVoteMessage]()
+
+    // MARK: Lifecycle
 
     init(hashes: [Data], dateGenerator: @escaping () -> Date = Date.init) {
         self.hashes = hashes
 
         super.init(dateGenerator: dateGenerator)
     }
+
+    // MARK: Overridden Functions
 
     override func start() {
         let items = hashes.map { hash in InventoryItem(type: DashInventoryType.msgTxLockVote.rawValue, hash: hash) }
@@ -32,6 +37,8 @@ class RequestTransactionLockVotesTask: PeerTask {
         }
         return false
     }
+
+    // MARK: Functions
 
     private func handleTransactionLockRequest(transactionLockVote: TransactionLockVoteMessage) -> Bool {
         guard let index = hashes.firstIndex(of: transactionLockVote.hash) else {

@@ -1,8 +1,7 @@
 //
 //  MasternodeParser.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/4/12.
 //
 
 import Foundation
@@ -10,11 +9,17 @@ import Foundation
 import BitcoinCore
 
 class MasternodeParser: IMasternodeParser {
+    // MARK: Properties
+
     let hasher: IDashHasher
+
+    // MARK: Lifecycle
 
     init(hasher: IDashHasher) {
         self.hasher = hasher
     }
+
+    // MARK: Functions
 
     func parse(byteStream: ByteStream) -> Masternode {
         let nVersion = byteStream.read(UInt16.self)

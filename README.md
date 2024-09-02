@@ -22,7 +22,7 @@ let seed = Mnemonic.seed(mnemonic: [""], passphrase: "")!
 
 let dashKit = try DashKit.Kit(
     seed: seed,
-    walletId: "unique_wallet_id",
+    walletID: "unique_wallet_id",
     syncMode: BitcoinCore.SyncMode.full,
     networkType: DashKit.Kit.NetworkType.mainNet,
     confirmationsThreshold: 3,
@@ -35,11 +35,11 @@ let dashKit = try DashKit.Kit(
 Dash has some transactions marked `instant`. So, instead of `TransactionInfo` object *DashKit.Kit* works with `DashTransactionInfo`, that has that field and a respective `DashKitDelegate` delegate class.
 
 
-## Prerequisites
+## Requirements
 
-* Xcode 15.0+
+* Xcode 15.4+
 * Swift 5.10+
-* iOS 14+
+* iOS 14.0+
 
 ## Installation
 
@@ -47,7 +47,7 @@ Dash has some transactions marked `instant`. So, instead of `TransactionInfo` ob
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sunimp/DashKit.Swift.git", .upToNextMajor(from: "3.1.1"))
+    .package(url: "https://github.com/sunimp/DashKit.Swift.git", .upToNextMajor(from: "3.2.0"))
 ]
 ```
 

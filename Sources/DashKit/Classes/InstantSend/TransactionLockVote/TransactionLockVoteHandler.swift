@@ -1,8 +1,7 @@
 //
 //  TransactionLockVoteHandler.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/28.
 //
 
 import Foundation
@@ -11,13 +10,18 @@ import BitcoinCore
 import WWToolKit
 
 class TransactionLockVoteHandler: ITransactionLockVoteHandler {
+    // MARK: Properties
+
+    public weak var delegate: IInstantTransactionDelegate?
+
     private let requiredVoteCount: Int
 
     private let instantTransactionManager: IInstantTransactionManager
     private let lockVoteManager: ITransactionLockVoteManager
 
-    public weak var delegate: IInstantTransactionDelegate?
     private let logger: Logger?
+
+    // MARK: Lifecycle
 
     init(
         instantTransactionManager: IInstantTransactionManager,
@@ -31,6 +35,8 @@ class TransactionLockVoteHandler: ITransactionLockVoteHandler {
 
         self.requiredVoteCount = requiredVoteCount
     }
+
+    // MARK: Functions
 
     public func handle(transaction: FullTransaction) {
         // check transaction already not in instant

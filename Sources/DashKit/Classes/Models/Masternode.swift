@@ -1,8 +1,7 @@
 //
 //  Masternode.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -12,22 +11,7 @@ import GRDB
 // MARK: - Masternode
 
 class Masternode: Record {
-    let nVersion: UInt16
-    let proRegTxHash: Data
-    let confirmedHash: Data
-    var confirmedHashWithProRegTxHash: Data
-    let ipAddress: Data
-    let port: UInt16
-    let pubKeyOperator: Data
-    let keyIDVoting: Data
-    let isValid: Bool
-    let type: UInt16?
-    let platformHTTPPort: UInt16?
-    let platformNodeID: Data?
-
-    override class var databaseTableName: String {
-        "masternodes"
-    }
+    // MARK: Nested Types
 
     enum Columns: String, ColumnExpression {
         case nVersion
@@ -44,6 +28,29 @@ class Masternode: Record {
         case platformNodeID
     }
 
+    // MARK: Overridden Properties
+
+    override class var databaseTableName: String {
+        "masternodes"
+    }
+
+    // MARK: Properties
+
+    let nVersion: UInt16
+    let proRegTxHash: Data
+    let confirmedHash: Data
+    var confirmedHashWithProRegTxHash: Data
+    let ipAddress: Data
+    let port: UInt16
+    let pubKeyOperator: Data
+    let keyIDVoting: Data
+    let isValid: Bool
+    let type: UInt16?
+    let platformHTTPPort: UInt16?
+    let platformNodeID: Data?
+
+    // MARK: Lifecycle
+
     required init(row: Row) throws {
         nVersion = row[Columns.nVersion]
         proRegTxHash = row[Columns.proRegTxHash]
@@ -59,21 +66,6 @@ class Masternode: Record {
         platformNodeID = row[Columns.platformNodeID]
 
         try super.init(row: row)
-    }
-
-    override func encode(to container: inout PersistenceContainer) throws {
-        container[Columns.nVersion] = nVersion
-        container[Columns.proRegTxHash] = proRegTxHash
-        container[Columns.confirmedHash] = confirmedHash
-        container[Columns.confirmedHashWithProRegTxHash] = confirmedHashWithProRegTxHash
-        container[Columns.ipAddress] = ipAddress
-        container[Columns.port] = port
-        container[Columns.pubKeyOperator] = pubKeyOperator
-        container[Columns.keyIDVoting] = keyIDVoting
-        container[Columns.isValid] = isValid
-        container[Columns.type] = type
-        container[Columns.platformHTTPPort] = platformHTTPPort
-        container[Columns.platformNodeID] = platformNodeID
     }
 
     init(
@@ -104,6 +96,23 @@ class Masternode: Record {
         self.platformNodeID = platformNodeID
 
         super.init()
+    }
+
+    // MARK: Overridden Functions
+
+    override func encode(to container: inout PersistenceContainer) throws {
+        container[Columns.nVersion] = nVersion
+        container[Columns.proRegTxHash] = proRegTxHash
+        container[Columns.confirmedHash] = confirmedHash
+        container[Columns.confirmedHashWithProRegTxHash] = confirmedHashWithProRegTxHash
+        container[Columns.ipAddress] = ipAddress
+        container[Columns.port] = port
+        container[Columns.pubKeyOperator] = pubKeyOperator
+        container[Columns.keyIDVoting] = keyIDVoting
+        container[Columns.isValid] = isValid
+        container[Columns.type] = type
+        container[Columns.platformHTTPPort] = platformHTTPPort
+        container[Columns.platformNodeID] = platformNodeID
     }
 }
 

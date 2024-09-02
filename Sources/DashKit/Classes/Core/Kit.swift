@@ -1,8 +1,7 @@
 //
 //  Kit.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -15,13 +14,13 @@ import WWToolKit
 // MARK: - Kit
 
 public class Kit: AbstractKit {
-    private static let name = "DashKit"
-    private static let heightInterval = 24 // Blocks count in window for calculating difficulty
-    private static let targetSpacing = 150 // Time to mining one block ( 2.5 min. Dash )
-    private static let maxTargetBits = 0x1E0F_FFFF // Initially and max. target difficulty for blocks ( Dash )
+    // MARK: Nested Types
 
     public enum NetworkType: String, CaseIterable {
-        case mainNet, testNet
+        case mainNet
+        case testNet
+
+        // MARK: Computed Properties
 
         var network: INetwork {
             switch self {
@@ -33,6 +32,15 @@ public class Kit: AbstractKit {
         }
     }
 
+    // MARK: Static Properties
+
+    private static let name = "DashKit"
+    private static let heightInterval = 24 // Blocks count in window for calculating difficulty
+    private static let targetSpacing = 150 // Time to mining one block ( 2.5 min. Dash )
+    private static let maxTargetBits = 0x1E0FFFFF // Initially and max. target difficulty for blocks ( Dash )
+
+    // MARK: Properties
+
     public weak var delegate: DashKitDelegate?
 
     private let storage: IDashStorage
@@ -41,10 +49,78 @@ public class Kit: AbstractKit {
     private var instantSend: InstantSend?
     private let dashTransactionInfoConverter: ITransactionInfoConverter
 
+    // MARK: Lifecycle
+
+    public convenience init(
+        seed: Data,
+        walletID: String,
+        syncMode: BitcoinCore.SyncMode = .api,
+        networkType: NetworkType = .mainNet,
+        confirmationsThreshold: Int = 6,
+        logger: Logger?
+    ) throws {
+        let masterPrivateKey = HDPrivateKey(seed: seed, xPrivKey: Purpose.bip44.rawValue)
+
+        try self.init(
+            extendedKey: .private(key: masterPrivateKey),
+            walletID: walletID,
+            syncMode: syncMode,
+            networkType: networkType,
+            confirmationsThreshold: confirmationsThreshold,
+            logger: logger
+        )
+    }
+
+    public convenience init(
+        extendedKey: HDExtendedKey,
+        walletID: String,
+        syncMode: BitcoinCore.SyncMode = .api,
+        networkType: NetworkType = .mainNet,
+        confirmationsThreshold: Int = 6,
+        logger: Logger?
+    ) throws {
+        try self.init(
+            extendedKey: extendedKey,
+            watchAddressPublicKey: nil,
+            walletID: walletID,
+            syncMode: syncMode,
+            networkType: networkType,
+            confirmationsThreshold: confirmationsThreshold,
+            logger: logger
+        )
+    }
+
+    public convenience init(
+        watchAddress: String,
+        walletID: String,
+        syncMode: BitcoinCore.SyncMode = .api,
+        networkType: NetworkType = .mainNet,
+        confirmationsThreshold: Int = 6,
+        logger: Logger?
+    ) throws {
+        let network = networkType.network
+        let base58AddressConverter = Base58AddressConverter(
+            addressVersion: network.pubKeyHash,
+            addressScriptVersion: network.scriptHash
+        )
+        let address = try base58AddressConverter.convert(address: watchAddress)
+        let publicKey = try WatchAddressPublicKey(data: address.lockingScriptPayload, scriptType: address.scriptType)
+
+        try self.init(
+            extendedKey: nil,
+            watchAddressPublicKey: publicKey,
+            walletID: walletID,
+            syncMode: syncMode,
+            networkType: networkType,
+            confirmationsThreshold: confirmationsThreshold,
+            logger: logger
+        )
+    }
+
     private init(
         extendedKey: HDExtendedKey?,
         watchAddressPublicKey: WatchAddressPublicKey?,
-        walletId: String,
+        walletID: String,
         syncMode: BitcoinCore.SyncMode = .api,
         networkType: NetworkType = .mainNet,
         confirmationsThreshold: Int = 6,
@@ -52,11 +128,12 @@ public class Kit: AbstractKit {
     ) throws {
         let network = networkType.network
         let logger = logger ?? Logger(minLogLevel: .verbose)
-        let databaseFilePath = try DirectoryHelper.directoryUrl(for: Kit.name).appendingPathComponent(Kit.databaseFileName(
-            walletId: walletId,
-            networkType: networkType,
-            syncMode: syncMode
-        )).path
+        let databaseFilePath = try DirectoryHelper.directoryURL(for: Kit.name)
+            .appendingPathComponent(Kit.databaseFileName(
+                walletID: walletID,
+                networkType: networkType,
+                syncMode: syncMode
+            )).path
         let storage = DashGrdbStorage(databaseFilePath: databaseFilePath)
         self.storage = storage
         let apiSyncStateManager = ApiSyncStateManager(
@@ -67,16 +144,16 @@ public class Kit: AbstractKit {
         let apiTransactionProvider: IApiTransactionProvider
         switch networkType {
         case .mainNet:
-            let apiTransactionProviderUrl = "https://insight.dash.org/insight-api"
+            let apiTransactionProviderURL = "https://insight.dash.org/insight-api"
 
             if case .blockchair = syncMode {
-                let blockchairApi = BlockchairApi(chainId: network.blockchairChainId, logger: logger)
+                let blockchairApi = BlockchairApi(chainID: network.blockchairChainID, logger: logger)
                 let blockchairBlockHashFetcher = BlockchairBlockHashFetcher(blockchairApi: blockchairApi)
                 let blockchairProvider = BlockchairTransactionProvider(
                     blockchairApi: blockchairApi,
                     blockHashFetcher: blockchairBlockHashFetcher
                 )
-                let insightApiProvider = InsightApi(url: apiTransactionProviderUrl, logger: logger)
+                let insightApiProvider = InsightApi(url: apiTransactionProviderURL, logger: logger)
 
                 apiTransactionProvider = BiApiBlockProvider(
                     restoreProvider: insightApiProvider,
@@ -84,7 +161,7 @@ public class Kit: AbstractKit {
                     apiSyncStateManager: apiSyncStateManager
                 )
             } else {
-                apiTransactionProvider = InsightApi(url: apiTransactionProviderUrl, logger: logger)
+                apiTransactionProvider = InsightApi(url: apiTransactionProviderURL, logger: logger)
             }
 
         case .testNet:
@@ -105,7 +182,8 @@ public class Kit: AbstractKit {
             instantTransactionState: instantTransactionState
         )
 
-        dashTransactionInfoConverter = DashTransactionInfoConverter(instantTransactionManager: instantTransactionManager)
+        dashTransactionInfoConverter =
+            DashTransactionInfoConverter(instantTransactionManager: instantTransactionManager)
 
         let difficultyEncoder = DifficultyEncoder()
 
@@ -155,7 +233,7 @@ public class Kit: AbstractKit {
             .set(checkpoint: Checkpoint.resolveCheckpoint(network: network, syncMode: syncMode, storage: storage))
             .set(apiSyncStateManager: apiSyncStateManager)
             .set(paymentAddressParser: paymentAddressParser)
-            .set(walletId: walletId)
+            .set(walletID: walletID)
             .set(confirmationsThreshold: confirmationsThreshold)
             .set(peerSize: 10)
             .set(storage: storage)
@@ -175,7 +253,10 @@ public class Kit: AbstractKit {
 
         bitcoinCore.add(messageParser: TransactionLockMessageParser())
             .add(messageParser: TransactionLockVoteMessageParser())
-            .add(messageParser: MasternodeListDiffMessageParser(masternodeParser: masternodeParser, quorumParser: quorumParser))
+            .add(messageParser: MasternodeListDiffMessageParser(
+                masternodeParser: masternodeParser,
+                quorumParser: quorumParser
+            ))
             .add(messageParser: ISLockParser(hasher: doubleShaHasher))
             .add(messageParser: TransactionMessageParser(hasher: doubleShaHasher))
 
@@ -248,7 +329,10 @@ public class Kit: AbstractKit {
         ))
         // --------------------------------------
         let transactionLockVoteValidator = TransactionLockVoteValidator(storage: storage, hasher: singleHasher)
-        let instantSendLockValidator = InstantSendLockValidator(quorumListManager: quorumListManager, hasher: doubleShaHasher)
+        let instantSendLockValidator = InstantSendLockValidator(
+            quorumListManager: quorumListManager,
+            hasher: doubleShaHasher
+        )
 
         let instantTransactionSyncer = InstantTransactionSyncer(transactionSyncer: bitcoinCore.transactionSyncer)
         let lockVoteManager = TransactionLockVoteManager(transactionLockVoteValidator: transactionLockVoteValidator)
@@ -285,82 +369,25 @@ public class Kit: AbstractKit {
         bitcoinCore.add(restoreKeyConverter: Bip44RestoreKeyConverter(addressConverter: base58AddressConverter))
     }
 
-    public convenience init(
-        seed: Data,
-        walletId: String,
-        syncMode: BitcoinCore.SyncMode = .api,
-        networkType: NetworkType = .mainNet,
-        confirmationsThreshold: Int = 6,
-        logger: Logger?
-    ) throws {
-        let masterPrivateKey = HDPrivateKey(seed: seed, xPrivKey: Purpose.bip44.rawValue)
+    // MARK: Overridden Functions
 
-        try self.init(
-            extendedKey: .private(key: masterPrivateKey),
-            walletId: walletId,
-            syncMode: syncMode,
-            networkType: networkType,
-            confirmationsThreshold: confirmationsThreshold,
-            logger: logger
-        )
+    override public func transaction(hash: String) -> DashTransactionInfo? {
+        super.transaction(hash: hash) as? DashTransactionInfo
     }
 
-    public convenience init(
-        extendedKey: HDExtendedKey,
-        walletId: String,
-        syncMode: BitcoinCore.SyncMode = .api,
-        networkType: NetworkType = .mainNet,
-        confirmationsThreshold: Int = 6,
-        logger: Logger?
-    ) throws {
-        try self.init(
-            extendedKey: extendedKey,
-            watchAddressPublicKey: nil,
-            walletId: walletId,
-            syncMode: syncMode,
-            networkType: networkType,
-            confirmationsThreshold: confirmationsThreshold,
-            logger: logger
-        )
-    }
+    // MARK: Functions
 
-    public convenience init(
-        watchAddress: String,
-        walletId: String,
-        syncMode: BitcoinCore.SyncMode = .api,
-        networkType: NetworkType = .mainNet,
-        confirmationsThreshold: Int = 6,
-        logger: Logger?
-    ) throws {
-        let network = networkType.network
-        let base58AddressConverter = Base58AddressConverter(
-            addressVersion: network.pubKeyHash,
-            addressScriptVersion: network.scriptHash
-        )
-        let address = try base58AddressConverter.convert(address: watchAddress)
-        let publicKey = try WatchAddressPublicKey(data: address.lockingScriptPayload, scriptType: address.scriptType)
-
-        try self.init(
-            extendedKey: nil,
-            watchAddressPublicKey: publicKey,
-            walletId: walletId,
-            syncMode: syncMode,
-            networkType: networkType,
-            confirmationsThreshold: confirmationsThreshold,
-            logger: logger
-        )
+    public func transactions(
+        fromUid: String? = nil,
+        type: TransactionFilterType?,
+        limit: Int? = nil
+    )
+        -> [DashTransactionInfo] {
+        cast(transactionInfos: super.transactions(fromUid: fromUid, type: type, limit: limit))
     }
 
     private func cast(transactionInfos: [TransactionInfo]) -> [DashTransactionInfo] {
         transactionInfos.compactMap { $0 as? DashTransactionInfo }
-    }
-
-    public func transactions(fromUid: String? = nil, type: TransactionFilterType?, limit: Int? = nil) -> [DashTransactionInfo] {
-        cast(transactionInfos: super.transactions(fromUid: fromUid, type: type, limit: limit))
-    }
-
-    override public func transaction(hash: String) -> DashTransactionInfo? {
-        super.transaction(hash: hash) as? DashTransactionInfo
     }
 }
 
@@ -369,9 +396,14 @@ public class Kit: AbstractKit {
 extension Kit: BitcoinCoreDelegate {
     public func transactionsUpdated(inserted: [TransactionInfo], updated: [TransactionInfo]) {
         // check for all new transactions if it's has instant lock
-        for item in inserted.compactMap(\.transactionHash.ww.hexData) { instantSend?.handle(insertedTxHash: item) }
+        for item in inserted.compactMap(\.transactionHash.ww.hexData) {
+            instantSend?.handle(insertedTxHash: item)
+        }
 
-        delegate?.transactionsUpdated(inserted: cast(transactionInfos: inserted), updated: cast(transactionInfos: updated))
+        delegate?.transactionsUpdated(
+            inserted: cast(transactionInfos: inserted),
+            updated: cast(transactionInfos: updated)
+        )
     }
 
     public func transactionsDeleted(hashes: [String]) {
@@ -408,12 +440,17 @@ extension Kit: IInstantTransactionDelegate {
 }
 
 extension Kit {
-    public static func clear(exceptFor walletIdsToExclude: [String] = []) throws {
-        try DirectoryHelper.removeAll(inDirectory: Kit.name, except: walletIdsToExclude)
+    public static func clear(exceptFor walletIDsToExclude: [String] = []) throws {
+        try DirectoryHelper.removeAll(inDirectory: Kit.name, except: walletIDsToExclude)
     }
 
-    private static func databaseFileName(walletId: String, networkType: NetworkType, syncMode: BitcoinCore.SyncMode) -> String {
-        "\(walletId)-\(networkType.rawValue)-\(syncMode)"
+    private static func databaseFileName(
+        walletID: String,
+        networkType: NetworkType,
+        syncMode: BitcoinCore.SyncMode
+    )
+        -> String {
+        "\(walletID)-\(networkType.rawValue)-\(syncMode)"
     }
     
     private static func addressConverter(network: INetwork) -> AddressConverterChain {

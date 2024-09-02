@@ -1,8 +1,7 @@
 //
 //  MasternodeListState.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/1.
 //
 
 import Foundation
@@ -10,20 +9,30 @@ import Foundation
 import GRDB
 
 class MasternodeListState: Record {
-    private static let primaryKey = "primaryKey"
-
-    let baseBlockHash: Data
-
-    private let primaryKey: String = MasternodeListState.primaryKey
-
-    override class var databaseTableName: String {
-        "masternodeListState"
-    }
+    // MARK: Nested Types
 
     enum Columns: String, ColumnExpression {
         case primaryKey
         case baseBlockHash
     }
+
+    // MARK: Static Properties
+
+    private static let primaryKey = "primaryKey"
+
+    // MARK: Overridden Properties
+
+    override class var databaseTableName: String {
+        "masternodeListState"
+    }
+
+    // MARK: Properties
+
+    let baseBlockHash: Data
+
+    private let primaryKey: String = MasternodeListState.primaryKey
+
+    // MARK: Lifecycle
 
     required init(row: Row) throws {
         baseBlockHash = row[Columns.baseBlockHash]
@@ -31,14 +40,16 @@ class MasternodeListState: Record {
         try super.init(row: row)
     }
 
-    override func encode(to container: inout PersistenceContainer) throws {
-        container[Columns.primaryKey] = primaryKey
-        container[Columns.baseBlockHash] = baseBlockHash
-    }
-
     init(baseBlockHash: Data) {
         self.baseBlockHash = baseBlockHash
 
         super.init()
+    }
+
+    // MARK: Overridden Functions
+
+    override func encode(to container: inout PersistenceContainer) throws {
+        container[Columns.primaryKey] = primaryKey
+        container[Columns.baseBlockHash] = baseBlockHash
     }
 }

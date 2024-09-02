@@ -1,8 +1,7 @@
 //
 //  MerkleRootCreator.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/26.
 //
 
 import Foundation
@@ -10,16 +9,24 @@ import Foundation
 import BitcoinCore
 
 class MerkleRootCreator: IMerkleRootCreator {
+    // MARK: Nested Types
+
     private struct MerkleChunk {
         let first: Data
         let last: Data
     }
 
+    // MARK: Properties
+
     let hasher: IDashHasher
+
+    // MARK: Lifecycle
 
     public init(hasher: IDashHasher) {
         self.hasher = hasher
     }
+
+    // MARK: Functions
 
     func create(hashes: [Data]) -> Data? {
         guard !hashes.isEmpty else {

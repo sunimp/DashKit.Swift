@@ -1,8 +1,7 @@
 //
 //  ISLockParser.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/27.
 //
 
 import Foundation
@@ -11,13 +10,19 @@ import BitcoinCore
 import WWExtensions
 
 class ISLockParser: IMessageParser {
+    // MARK: Properties
+
     let id = "islock"
 
     let hasher: IDashHasher
 
+    // MARK: Lifecycle
+
     init(hasher: IDashHasher) {
         self.hasher = hasher
     }
+
+    // MARK: Functions
 
     func parse(data: Data) -> IMessage {
         let byteStream = ByteStream(data)
@@ -35,7 +40,7 @@ class ISLockParser: IMessageParser {
 
         let command = VarInt(id.count).data + (id.data(using: .ascii) ?? Data())
 
-        // requestId - parameter to found quorum. 'islock' + count of inputs + each inputs(outpoint)
+        // requestID - parameter to found quorum. 'islock' + count of inputs + each inputs(outpoint)
         var requestID = command + inputCountVarInt.data
         for outpoint in outpoints {
             requestID += outpoint.txHash + Data(from: outpoint.vout) // TODO: check little or big endian

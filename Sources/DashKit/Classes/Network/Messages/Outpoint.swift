@@ -1,8 +1,7 @@
 //
 //  Outpoint.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -10,8 +9,12 @@ import Foundation
 import BitcoinCore
 
 class Outpoint {
+    // MARK: Properties
+
     let txHash: Data
     let vout: UInt32
+
+    // MARK: Lifecycle
 
     init(txHash: Data, vout: UInt32) {
         self.txHash = txHash

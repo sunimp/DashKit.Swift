@@ -1,8 +1,7 @@
 //
 //  TestNet.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/6.
 //
 
 import Foundation
@@ -14,19 +13,19 @@ class TestNet: INetwork {
 
     let bundleName = "Dash"
 
-    let maxBlockSize: UInt32 = 1_000_000_000
+    let maxBlockSize: UInt32 = 1000000000
     let pubKeyHash: UInt8 = 0x8C
     let privateKey: UInt8 = 0x80
     let scriptHash: UInt8 = 0x13
     let bech32PrefixPattern = "bc"
-    let xPubKey: UInt32 = 0x0488_B21E
-    let xPrivKey: UInt32 = 0x0488_ADE4
-    let magic: UInt32 = 0xCEE2_CAFF
+    let xPubKey: UInt32 = 0x0488B21E
+    let xPrivKey: UInt32 = 0x0488ADE4
+    let magic: UInt32 = 0xCEE2CAFF
     let port = 19999
     let coinType: UInt32 = 1
     let sigHash: SigHashType = .bitcoinAll
     var syncableFromApi = true
-    var blockchairChainId = ""
+    var blockchairChainID = ""
 
     let dnsSeeds = [
         "testnet-seed.dashdot.io",

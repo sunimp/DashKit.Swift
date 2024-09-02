@@ -1,8 +1,7 @@
 //
 //  InstantSend.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/28.
 //
 
 import Foundation
@@ -17,13 +16,20 @@ enum DashInventoryType: Int32 { case msgTxLockRequest = 4, msgTxLockVote = 5, ms
 // MARK: - InstantSend
 
 class InstantSend {
+    // MARK: Static Properties
+
     static let requiredVoteCount = 6
+
+    // MARK: Properties
+
     let dispatchQueue: DispatchQueue
 
     private let transactionSyncer: IDashTransactionSyncer
     private let transactionLockVoteHandler: ITransactionLockVoteHandler
     private let instantSendLockHandler: IInstantSendLockHandler
     private let logger: Logger?
+
+    // MARK: Lifecycle
 
     init(
         transactionSyncer: IDashTransactionSyncer,
@@ -39,6 +45,8 @@ class InstantSend {
 
         self.logger = logger
     }
+
+    // MARK: Functions
 
     public func handle(insertedTxHash: Data) {
         instantSendLockHandler.handle(transactionHash: insertedTxHash)

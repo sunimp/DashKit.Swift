@@ -1,8 +1,7 @@
 //
 //  DarkGravityWaveTestNetValidator.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/4/15.
 //
 
 import Foundation
@@ -10,12 +9,16 @@ import Foundation
 import BitcoinCore
 
 class DarkGravityWaveTestNetValidator: IBlockChainedValidator {
+    // MARK: Properties
+
     private let difficultyEncoder: IDashDifficultyEncoder
 
     private let targetSpacing: Int
     private let targetTimeSpan: Int
     private let maxTargetBits: Int
     private let powDGWHeight: Int
+
+    // MARK: Lifecycle
 
     init(
         difficultyEncoder: IDashDifficultyEncoder,
@@ -31,6 +34,8 @@ class DarkGravityWaveTestNetValidator: IBlockChainedValidator {
         self.maxTargetBits = maxTargetBits
         self.powDGWHeight = powDGWHeight
     }
+
+    // MARK: Functions
 
     func validate(block: Block, previousBlock: Block) throws {
         if block.timestamp > previousBlock.timestamp + 2 * targetTimeSpan { // more than 2 cycles

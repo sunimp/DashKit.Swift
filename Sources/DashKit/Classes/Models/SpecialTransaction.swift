@@ -1,8 +1,7 @@
 //
 //  SpecialTransaction.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2022/7/21.
 //
 
 import Foundation
@@ -10,7 +9,11 @@ import Foundation
 import BitcoinCore
 
 class SpecialTransaction: FullTransaction {
+    // MARK: Properties
+
     let extraPayload: Data
+
+    // MARK: Lifecycle
 
     init(transaction: FullTransaction, extraPayload: Data, forceHashUpdate: Bool = true) {
         self.extraPayload = extraPayload

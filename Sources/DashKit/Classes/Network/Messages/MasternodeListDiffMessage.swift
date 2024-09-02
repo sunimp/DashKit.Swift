@@ -1,8 +1,7 @@
 //
 //  MasternodeListDiffMessage.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -10,6 +9,8 @@ import Foundation
 import BitcoinCore
 
 struct MasternodeListDiffMessage: IMessage {
+    // MARK: Properties
+
     let baseBlockHash: Data
     let blockHash: Data
     let totalTransactions: UInt32
@@ -25,6 +26,8 @@ struct MasternodeListDiffMessage: IMessage {
     let mnList: [Masternode]
     let deletedQuorums: [(type: UInt8, quorumHash: Data)]
     let quorumList: [Quorum]
+
+    // MARK: Computed Properties
 
     var description: String {
         "\(baseBlockHash) \(blockHash)"

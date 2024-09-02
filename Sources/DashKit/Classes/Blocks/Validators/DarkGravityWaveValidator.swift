@@ -1,8 +1,7 @@
 //
 //  DarkGravityWaveValidator.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/4/15.
 //
 
 import Foundation
@@ -11,6 +10,8 @@ import BigInt
 import BitcoinCore
 
 class DarkGravityWaveValidator: IBlockChainedValidator {
+    // MARK: Properties
+
     private let difficultyEncoder: IDashDifficultyEncoder
     private let blockHelper: IDashBlockValidatorHelper
 
@@ -18,6 +19,8 @@ class DarkGravityWaveValidator: IBlockChainedValidator {
     private let targetTimeSpan: Int
     private let maxTargetBits: Int
     private let powDGWHeight: Int
+
+    // MARK: Lifecycle
 
     init(
         encoder: IDashDifficultyEncoder,
@@ -35,6 +38,8 @@ class DarkGravityWaveValidator: IBlockChainedValidator {
         self.maxTargetBits = maxTargetBits
         self.powDGWHeight = powDGWHeight
     }
+
+    // MARK: Functions
 
     func validate(block: Block, previousBlock: Block) throws {
         let blockTarget = difficultyEncoder.decodeCompact(bits: previousBlock.bits)

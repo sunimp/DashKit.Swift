@@ -1,8 +1,7 @@
 //
 //  X11Hasher.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/4/17.
 //
 
 import Foundation

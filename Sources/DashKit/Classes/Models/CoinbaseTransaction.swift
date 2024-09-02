@@ -1,8 +1,7 @@
 //
 //  CoinbaseTransaction.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -11,13 +10,18 @@ import BitcoinCore
 import WWExtensions
 
 struct CoinbaseTransaction {
-    private let coinbasePayloadSize = 70 // additional size of coinbase v2 parameters
+    // MARK: Properties
+
     let transaction: FullTransaction
     let coinbaseTransactionSize: Data
     let version: UInt16
     let height: UInt32
     let merkleRootMNList: Data
     let merkleRootQuorums: Data?
+
+    private let coinbasePayloadSize = 70 // additional size of coinbase v2 parameters
+
+    // MARK: Lifecycle
 
     init(
         transaction: FullTransaction,

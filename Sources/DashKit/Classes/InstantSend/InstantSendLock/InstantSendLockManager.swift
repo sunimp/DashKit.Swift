@@ -1,8 +1,7 @@
 //
 //  InstantSendLockManager.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/28.
 //
 
 import Foundation
@@ -10,13 +9,19 @@ import Foundation
 import BitcoinCore
 
 class InstantSendLockManager: IInstantSendLockManager {
-    private let instantSendLockValidator: IInstantSendLockValidator
+    // MARK: Properties
 
     private(set) var relayedLocks = [Data: ISLockMessage]()
+
+    private let instantSendLockValidator: IInstantSendLockValidator
+
+    // MARK: Lifecycle
 
     init(instantSendLockValidator: IInstantSendLockValidator) {
         self.instantSendLockValidator = instantSendLockValidator
     }
+
+    // MARK: Functions
 
     func add(relayed: ISLockMessage) {
         relayedLocks[relayed.txHash] = relayed

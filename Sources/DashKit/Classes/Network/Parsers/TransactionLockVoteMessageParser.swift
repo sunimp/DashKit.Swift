@@ -1,8 +1,7 @@
 //
 //  TransactionLockVoteMessageParser.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -12,7 +11,11 @@ import WWCryptoKit
 import WWExtensions
 
 class TransactionLockVoteMessageParser: IMessageParser {
+    // MARK: Computed Properties
+
     var id: String { "txlvote" }
+
+    // MARK: Functions
 
     func parse(data: Data) -> IMessage {
         let byteStream = ByteStream(data)

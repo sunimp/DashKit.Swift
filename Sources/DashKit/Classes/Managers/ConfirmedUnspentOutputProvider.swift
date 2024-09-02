@@ -1,8 +1,7 @@
 //
 //  ConfirmedUnspentOutputProvider.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/7.
 //
 
 import Foundation
@@ -12,8 +11,12 @@ import BitcoinCore
 // MARK: - ConfirmedUnspentOutputProvider
 
 class ConfirmedUnspentOutputProvider {
+    // MARK: Properties
+
     let storage: IDashStorage
     let confirmationsThreshold: Int
+
+    // MARK: Lifecycle
 
     init(storage: IDashStorage, confirmationsThreshold: Int) {
         self.storage = storage
@@ -39,8 +42,7 @@ extension ConfirmedUnspentOutputProvider: IUnspentOutputProvider {
 
             if
                 let outputsCount = filters.maxOutputsCountForInputs,
-                storage.outputsCount(transactionHash: utxo.transaction.dataHash) > outputsCount
-            {
+                storage.outputsCount(transactionHash: utxo.transaction.dataHash) > outputsCount {
                 return false
             }
 

@@ -1,8 +1,7 @@
 //
 //  MasternodeListDiffMessageParser.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -11,15 +10,23 @@ import BitcoinCore
 import WWExtensions
 
 class MasternodeListDiffMessageParser: IMessageParser {
+    // MARK: Properties
+
     private let masternodeParser: IMasternodeParser
     private let quorumParser: IQuorumParser
 
+    // MARK: Computed Properties
+
     var id: String { "mnlistdiff" }
+
+    // MARK: Lifecycle
 
     init(masternodeParser: IMasternodeParser, quorumParser: IQuorumParser) {
         self.masternodeParser = masternodeParser
         self.quorumParser = quorumParser
     }
+
+    // MARK: Functions
 
     func parse(data: Data) -> IMessage {
         let byteStream = ByteStream(data)
@@ -54,7 +61,10 @@ class MasternodeListDiffMessageParser: IMessageParser {
         let deletedQuorumsCount = Int(byteStream.read(VarInt.self).underlyingValue)
         var deletedQuorums = [(type: UInt8, quorumHash: Data)]()
         for _ in 0 ..< deletedQuorumsCount {
-            deletedQuorums.append((type: byteStream.read(UInt8.self), quorumHash: byteStream.read(Data.self, count: 32)))
+            deletedQuorums.append((
+                type: byteStream.read(UInt8.self),
+                quorumHash: byteStream.read(Data.self, count: 32)
+            ))
         }
 
         let newQuorumsCount = Int(byteStream.read(VarInt.self).underlyingValue)

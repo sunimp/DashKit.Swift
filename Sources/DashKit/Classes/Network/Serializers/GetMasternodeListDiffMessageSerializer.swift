@@ -1,8 +1,7 @@
 //
 //  GetMasternodeListDiffMessageSerializer.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/19.
 //
 
 import Foundation
@@ -10,7 +9,11 @@ import Foundation
 import BitcoinCore
 
 class GetMasternodeListDiffMessageSerializer: IMessageSerializer {
+    // MARK: Computed Properties
+
     var id: String { "getmnlistd" }
+
+    // MARK: Functions
 
     func serialize(message: IMessage) -> Data? {
         guard let message = message as? GetMasternodeListDiffMessage else {

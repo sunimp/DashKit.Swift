@@ -1,8 +1,7 @@
 //
 //  Quorum.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/30.
 //
 
 import Foundation
@@ -12,22 +11,7 @@ import GRDB
 // MARK: - Quorum
 
 class Quorum: Record {
-    let dataHash: Data
-    let version: UInt16
-    let type: UInt8
-    let quorumHash: Data
-    let typeWithQuorumHash: Data
-    let quorumIndex: UInt16?
-    let signers: Data
-    let validMembers: Data
-    let quorumPublicKey: Data
-    let quorumVvecHash: Data
-    let quorumSig: Data
-    let sig: Data
-
-    override class var databaseTableName: String {
-        "quorums"
-    }
+    // MARK: Nested Types
 
     enum Columns: String, ColumnExpression {
         case hash
@@ -44,6 +28,29 @@ class Quorum: Record {
         case sig
     }
 
+    // MARK: Overridden Properties
+
+    override class var databaseTableName: String {
+        "quorums"
+    }
+
+    // MARK: Properties
+
+    let dataHash: Data
+    let version: UInt16
+    let type: UInt8
+    let quorumHash: Data
+    let typeWithQuorumHash: Data
+    let quorumIndex: UInt16?
+    let signers: Data
+    let validMembers: Data
+    let quorumPublicKey: Data
+    let quorumVvecHash: Data
+    let quorumSig: Data
+    let sig: Data
+
+    // MARK: Lifecycle
+
     required init(row: Row) throws {
         dataHash = row[Columns.hash]
         version = row[Columns.version]
@@ -59,21 +66,6 @@ class Quorum: Record {
         sig = row[Columns.sig]
 
         try super.init(row: row)
-    }
-
-    override func encode(to container: inout PersistenceContainer) throws {
-        container[Columns.hash] = dataHash
-        container[Columns.version] = version
-        container[Columns.type] = type
-        container[Columns.quorumHash] = quorumHash
-        container[Columns.typeWithQuorumHash] = typeWithQuorumHash
-        container[Columns.quorumIndex] = quorumIndex
-        container[Columns.signers] = signers
-        container[Columns.validMembers] = validMembers
-        container[Columns.quorumPublicKey] = quorumPublicKey
-        container[Columns.quorumVvecHash] = quorumVvecHash
-        container[Columns.quorumSig] = quorumSig
-        container[Columns.sig] = sig
     }
 
     init(
@@ -104,6 +96,23 @@ class Quorum: Record {
         self.sig = sig
 
         super.init()
+    }
+
+    // MARK: Overridden Functions
+
+    override func encode(to container: inout PersistenceContainer) throws {
+        container[Columns.hash] = dataHash
+        container[Columns.version] = version
+        container[Columns.type] = type
+        container[Columns.quorumHash] = quorumHash
+        container[Columns.typeWithQuorumHash] = typeWithQuorumHash
+        container[Columns.quorumIndex] = quorumIndex
+        container[Columns.signers] = signers
+        container[Columns.validMembers] = validMembers
+        container[Columns.quorumPublicKey] = quorumPublicKey
+        container[Columns.quorumVvecHash] = quorumVvecHash
+        container[Columns.quorumSig] = quorumSig
+        container[Columns.sig] = sig
     }
 }
 

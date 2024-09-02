@@ -1,8 +1,7 @@
 //
 //  RequestTransactionLockRequestsTask.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -10,14 +9,20 @@ import Foundation
 import BitcoinCore
 
 class RequestTransactionLockRequestsTask: PeerTask {
+    // MARK: Properties
+
     var hashes = [Data]()
     var transactions = [FullTransaction]()
+
+    // MARK: Lifecycle
 
     init(hashes: [Data], dateGenerator: @escaping () -> Date = Date.init) {
         self.hashes = hashes
 
         super.init(dateGenerator: dateGenerator)
     }
+
+    // MARK: Overridden Functions
 
     override func start() {
         let items = hashes.map { hash in InventoryItem(type: DashInventoryType.msgTxLockRequest.rawValue, hash: hash) }
@@ -32,6 +37,8 @@ class RequestTransactionLockRequestsTask: PeerTask {
         }
         return false
     }
+
+    // MARK: Functions
 
     private func handleTransactionLockRequest(transaction: FullTransaction) -> Bool {
         guard let index = hashes.firstIndex(of: transaction.header.dataHash) else {

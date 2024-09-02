@@ -1,8 +1,7 @@
 //
 //  DashTransactionInfo.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/5.
 //
 
 import Foundation
@@ -10,11 +9,17 @@ import Foundation
 import BitcoinCore
 
 public class DashTransactionInfo: TransactionInfo {
-    public var instantTx = false
+    // MARK: Nested Types
 
     private enum CodingKeys: String, CodingKey {
         case instantTx
     }
+
+    // MARK: Properties
+
+    public var instantTx = false
+
+    // MARK: Lifecycle
 
     public required init(
         uid: String,
@@ -54,6 +59,8 @@ public class DashTransactionInfo: TransactionInfo {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         instantTx = try container.decode(Bool.self, forKey: .instantTx)
     }
+
+    // MARK: Overridden Functions
 
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)

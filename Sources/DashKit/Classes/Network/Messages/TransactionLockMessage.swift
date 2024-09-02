@@ -1,8 +1,7 @@
 //
 //  TransactionLockMessage.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2018/9/4.
 //
 
 import Foundation
@@ -11,7 +10,11 @@ import BitcoinCore
 import WWExtensions
 
 struct TransactionLockMessage: IMessage {
+    // MARK: Properties
+
     let transaction: FullTransaction
+
+    // MARK: Computed Properties
 
     var description: String {
         "\(transaction.header.dataHash.ww.reversedHex)"

@@ -1,8 +1,7 @@
 //
 //  TransactionLockVoteMessage.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Foundation
@@ -13,6 +12,8 @@ import WWExtensions
 // MARK: - TransactionLockVoteMessage
 
 struct TransactionLockVoteMessage: IMessage {
+    // MARK: Properties
+
     ///  TXID of the transaction to lock
     let txHash: Data
     ///  The unspent outpoint to lock in this transaction
@@ -27,6 +28,8 @@ struct TransactionLockVoteMessage: IMessage {
     let vchMasternodeSignature: Data
 
     let hash: Data
+
+    // MARK: Computed Properties
 
     var description: String {
         "\(txHash.ww.reversedHex)"

@@ -1,8 +1,7 @@
 //
-//  QuorumMasternode.swift
-//  DashKit
+//  QorumMasternode.swift
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/4/12.
 //
 
 import Foundation
@@ -10,8 +9,12 @@ import Foundation
 // MARK: - QuorumMasternode
 
 class QuorumMasternode {
+    // MARK: Properties
+
     let quorumHash: Data
     let masternode: Masternode
+
+    // MARK: Lifecycle
 
     init(quorumHash: Data, masternode: Masternode) {
         self.quorumHash = quorumHash

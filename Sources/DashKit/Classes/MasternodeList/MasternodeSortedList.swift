@@ -1,17 +1,22 @@
 //
 //  MasternodeSortedList.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/26.
 //
 
 import Foundation
 
 class MasternodeSortedList: IMasternodeSortedList {
+    // MARK: Properties
+
     private var masternodeSet = Set<Masternode>()
+
+    // MARK: Computed Properties
 
     var masternodes: [Masternode] { masternodeSet.sorted()
     }
+
+    // MARK: Functions
 
     func add(masternodes: [Masternode]) {
         masternodeSet = Set(masternodes).union(masternodeSet)

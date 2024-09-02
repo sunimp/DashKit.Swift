@@ -1,8 +1,7 @@
 //
 //  TransactionLockVoteValidator.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/4/12.
 //
 
 import Foundation
@@ -11,16 +10,22 @@ import BitcoinCore
 import BlsKit
 
 class TransactionLockVoteValidator: ITransactionLockVoteValidator {
+    // MARK: Properties
+
     private let storage: IDashStorage
     private let hasher: IDashHasher
 
     private let totalSignatures: Int
+
+    // MARK: Lifecycle
 
     init(storage: IDashStorage, hasher: IDashHasher, totalSignatures: Int = 10) {
         self.storage = storage
         self.hasher = hasher
         self.totalSignatures = totalSignatures
     }
+
+    // MARK: Functions
 
     func validate(lockVote: TransactionLockVoteMessage) throws {
         let masternodes = storage.masternodes.filter(\.isValid)
@@ -41,7 +46,9 @@ class TransactionLockVoteValidator: ITransactionLockVoteValidator {
         quorumMasternodes.sort(by: >)
 
         // 3. Find index for masternode
-        guard let index = quorumMasternodes.firstIndex(where: { $0.masternode.proRegTxHash == lockVote.masternodeProTxHash })
+        guard
+            let index = quorumMasternodes
+                .firstIndex(where: { $0.masternode.proRegTxHash == lockVote.masternodeProTxHash })
         else {
             throw DashKitErrors.LockVoteValidation.masternodeNotFound
         }
@@ -53,7 +60,12 @@ class TransactionLockVoteValidator: ITransactionLockVoteValidator {
 
         // 5. Check signature of masternode
         let masternode = quorumMasternodes[index].masternode
-        if !BlsKit.verify(lockVote.hash, publicKey: masternode.pubKeyOperator, signature: lockVote.vchMasternodeSignature) {
+        if
+            !BlsKit.verify(
+                lockVote.hash,
+                publicKey: masternode.pubKeyOperator,
+                signature: lockVote.vchMasternodeSignature
+            ) {
             throw DashKitErrors.LockVoteValidation.signatureNotValid
         }
     }

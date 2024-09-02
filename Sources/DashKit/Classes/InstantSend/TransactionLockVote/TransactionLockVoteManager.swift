@@ -1,8 +1,7 @@
 //
 //  TransactionLockVoteManager.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/1.
 //
 
 import Foundation
@@ -10,14 +9,20 @@ import Foundation
 import BitcoinCore
 
 class TransactionLockVoteManager: ITransactionLockVoteManager {
-    private let transactionLockVoteValidator: ITransactionLockVoteValidator
+    // MARK: Properties
 
     private(set) var relayedLockVotes = Set<TransactionLockVoteMessage>()
     private(set) var checkedLockVotes = Set<TransactionLockVoteMessage>()
 
+    private let transactionLockVoteValidator: ITransactionLockVoteValidator
+
+    // MARK: Lifecycle
+
     init(transactionLockVoteValidator: ITransactionLockVoteValidator) {
         self.transactionLockVoteValidator = transactionLockVoteValidator
     }
+
+    // MARK: Functions
 
     func takeRelayedLockVotes(for txHash: Data) -> [TransactionLockVoteMessage] {
         let votes = relayedLockVotes.filter {
@@ -36,7 +41,8 @@ class TransactionLockVoteManager: ITransactionLockVoteManager {
     }
 
     func processed(lvHash: Data) -> Bool {
-        relayedLockVotes.first(where: { $0.hash == lvHash }) != nil || checkedLockVotes.first(where: { $0.hash == lvHash }) != nil
+        relayedLockVotes.first(where: { $0.hash == lvHash }) != nil || checkedLockVotes
+            .first(where: { $0.hash == lvHash }) != nil
     }
 
     func validate(lockVote: TransactionLockVoteMessage) throws {

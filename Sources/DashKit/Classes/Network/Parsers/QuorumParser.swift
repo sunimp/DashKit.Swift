@@ -1,8 +1,7 @@
 //
 //  QuorumParser.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/30.
 //
 
 import Foundation
@@ -12,11 +11,17 @@ import WWCryptoKit
 import WWExtensions
 
 class QuorumParser: IQuorumParser {
+    // MARK: Properties
+
     let hasher: IDashHasher
+
+    // MARK: Lifecycle
 
     init(hasher: IDashHasher) {
         self.hasher = hasher
     }
+
+    // MARK: Functions
 
     func parse(byteStream: ByteStream) -> Quorum {
         let versionData = byteStream.read(Data.self, count: 2)

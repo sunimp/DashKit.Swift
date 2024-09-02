@@ -1,8 +1,7 @@
 //
 //  InstantSendLockHandler.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/5/28.
 //
 
 import Foundation
@@ -11,11 +10,16 @@ import BitcoinCore
 import WWToolKit
 
 class InstantSendLockHandler: IInstantSendLockHandler {
+    // MARK: Properties
+
+    public weak var delegate: IInstantTransactionDelegate?
+
     private let instantTransactionManager: IInstantTransactionManager
     private let instantLockManager: IInstantSendLockManager
 
-    public weak var delegate: IInstantTransactionDelegate?
     private let logger: Logger?
+
+    // MARK: Lifecycle
 
     init(
         instantTransactionManager: IInstantTransactionManager,
@@ -26,6 +30,8 @@ class InstantSendLockHandler: IInstantSendLockHandler {
         instantLockManager = instantSendLockManager
         self.logger = logger
     }
+
+    // MARK: Functions
 
     public func handle(transactionHash: Data) {
         // get relayed lock for inserted transaction and check it

@@ -1,8 +1,7 @@
 //
 //  MasternodeListSyncer.swift
-//  DashKit
 //
-//  Created by Sun on 2024/8/21.
+//  Created by Sun on 2019/3/18.
 //
 
 import Combine
@@ -13,6 +12,8 @@ import BitcoinCore
 // MARK: - MasternodeListSyncer
 
 class MasternodeListSyncer: IMasternodeListSyncer {
+    // MARK: Properties
+
     private var cancellables = Set<AnyCancellable>()
     private weak var bitcoinCore: BitcoinCore?
     private let initialBlockDownload: IInitialDownload
@@ -21,6 +22,8 @@ class MasternodeListSyncer: IMasternodeListSyncer {
 
     private var workingPeer: IPeer? = nil
     private let queue: DispatchQueue
+
+    // MARK: Lifecycle
 
     init(
         bitcoinCore: BitcoinCore,
@@ -34,6 +37,30 @@ class MasternodeListSyncer: IMasternodeListSyncer {
         self.peerTaskFactory = peerTaskFactory
         self.masternodeListManager = masternodeListManager
         self.queue = queue
+    }
+
+    // MARK: Functions
+
+    func subscribeTo(publisher: AnyPublisher<PeerGroupEvent, Never>) {
+        publisher
+            .sink { [weak self] event in
+                switch event {
+                case let .onPeerDisconnect(peer, error): self?.onPeerDisconnect(peer: peer, error: error)
+                default: ()
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    func subscribeTo(publisher: AnyPublisher<InitialDownloadEvent, Never>) {
+        publisher
+            .sink { [weak self] event in
+                switch event {
+                case let .onPeerSynced(peer): self?.onPeerSynced(peer: peer)
+                default: ()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     private func assignNextSyncPeer() {
@@ -59,28 +86,6 @@ class MasternodeListSyncer: IMasternodeListSyncer {
                 self.workingPeer = syncedPeer
             }
         }
-    }
-
-    func subscribeTo(publisher: AnyPublisher<PeerGroupEvent, Never>) {
-        publisher
-            .sink { [weak self] event in
-                switch event {
-                case .onPeerDisconnect(let peer, let error): self?.onPeerDisconnect(peer: peer, error: error)
-                default: ()
-                }
-            }
-            .store(in: &cancellables)
-    }
-
-    func subscribeTo(publisher: AnyPublisher<InitialDownloadEvent, Never>) {
-        publisher
-            .sink { [weak self] event in
-                switch event {
-                case .onPeerSynced(let peer): self?.onPeerSynced(peer: peer)
-                default: ()
-                }
-            }
-            .store(in: &cancellables)
     }
 }
 
